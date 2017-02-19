@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView;
 
-    LoggedUser loggedUser;
-
     String loggedUserEmail;
     String currentMenu;
 
@@ -89,19 +87,23 @@ public class MainActivity extends AppCompatActivity
 
                     if (e == null) {
 
-                        String currentSpeciality = "";
+
 
                         for (int i = 0; i < users.size(); i++) {
 
                             if (users.get(i).getMail().equals(loggedUserEmail)) {
 
-                                loggedUser = new LoggedUser(users.get(i).getMail(), users.get(i).getName(),
-                                        users.get(i).getSurname(), users.get(i).getRank(),
-                                        users.get(i).getSpeciality());
-                                currentSpeciality = loggedUser.getSpeciality();
+                                LoggedUser.setEmail(users.get(i).getMail());
+                                LoggedUser.setName(users.get(i).getName());
+                                LoggedUser.setSurName(users.get(i).getSurname());
+                                LoggedUser.setRank(users.get(i).getRank());
+                                LoggedUser.setSpeciality(users.get(i).getSpeciality());
+
                                 break;
                             }
                         }
+
+                        String currentSpeciality = LoggedUser.getSpeciality();
 
                         if (currentSpeciality.equals(UserSpeciality.getAndroid(MainActivity.this))) {
                             navigationViewHeaderView.setBackgroundResource(R.drawable.android);
@@ -135,10 +137,10 @@ public class MainActivity extends AppCompatActivity
                 .crossFade()
                 .centerCrop()
                 .into(headerUserImage);
+        LoggedUser.setPhoto(headerUserImage);
 
-
-        headerUserName.setText(loggedUser.getName());
-        headerUserSurname.setText(loggedUser.getSurName());
+        headerUserName.setText(LoggedUser.getName());
+        headerUserSurname.setText(LoggedUser.getSurName());
 
         setupMenuNews();
 
@@ -167,7 +169,7 @@ public class MainActivity extends AppCompatActivity
         if (currentMenu != null) {
 
             if (currentMenu.equals(AppConstants.TAG_MENU_NEWS) ||
-                    loggedUser.getRank().equals(getResources().getString(R.string.rank_student))) {
+                    LoggedUser.getRank().equals(getResources().getString(R.string.rank_student))) {
                 menu.getItem(0).setEnabled(false);
             } else {
                 menu.getItem(0).setEnabled(true);
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
-                    addPostToServer(String.valueOf(loggedUser.getName() + " " + loggedUser.getSurName()),
+                    addPostToServer(String.valueOf(LoggedUser.getName() + " " + LoggedUser.getSurName()),
                             addPostInformation.getText().toString(), loggedUserEmail);
                     updatePublications();
 

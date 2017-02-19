@@ -21,33 +21,45 @@ public class LoggedUser {
     private static String rank;
     private static String speciality;
 
-    private CircularImageView userPhoto;
+    private static CircularImageView userPhoto;
 
-    public LoggedUser(String email, String name, String surName, String rank, String speciality) {
-        this.email = email;
-        this.name = name;
-        this.surName = surName;
-        this.rank = rank;
-        this.speciality = speciality;
+    public static void setEmail(String email) {
+        LoggedUser.email = email;
     }
 
-    public String getEmail() {
+    public static void setName(String name) {
+        LoggedUser.name = name;
+    }
+
+    public static void setSurName(String surName) {
+        LoggedUser.surName = surName;
+    }
+
+    public static void setRank(String rank) {
+        LoggedUser.rank = rank;
+    }
+
+    public static void setSpeciality(String speciality) {
+        LoggedUser.speciality = speciality;
+    }
+
+    public static String getEmail() {
         return email;
     }
 
-    public String getName() {
+    public static String getName() {
         return name;
     }
 
-    public String getSurName() {
+    public static String getSurName() {
         return surName;
     }
 
-    public String getRank() {
+    public static String getRank() {
         return rank;
     }
 
-    public String getSpeciality() {
+    public static String getSpeciality() {
         return speciality;
     }
 
@@ -101,15 +113,11 @@ public class LoggedUser {
         return sharedPreferences.getBoolean(AppConstants.IS_LOGGED, false);
     }
 
-    public static LoggedUser getLoggedUser() {
-        return new LoggedUser(email, name, surName, rank, speciality);
-    }
-
-    public void setPhoto(CircularImageView photo) {
+    public static void setPhoto(CircularImageView photo) {
         userPhoto = photo;
     }
 
-    public CircularImageView getPhoto() {
+    public static CircularImageView getPhoto() {
         return userPhoto;
     }
 

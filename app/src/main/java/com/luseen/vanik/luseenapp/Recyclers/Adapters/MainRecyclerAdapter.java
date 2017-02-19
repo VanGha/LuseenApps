@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
 import com.luseen.vanik.luseenapp.Parse.LuseenNews;
@@ -61,8 +62,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             final LinearLayout.LayoutParams layoutParamsForLiner = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-//            holder.posterImage.setImageResource(luseenPosts.get(position).getPosterImageId()); // TODO: Poster image at here!
-//            holder.userImage.setImageResource(luseenPosts.get(position).getUserImageId()); // TODO: LoggedUser image at here!
+            holder.userImage = LoggedUser.getPhoto();
             holder.posterName.setText(luseenPosts.get(position).getPosterName());
             holder.information.setText(luseenPosts.get(position).getInformation());
 
@@ -79,6 +79,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     String[] namesAndComments = currentPostComment[i].split(Pattern.quote("-s@|ed|"));
 
                     LinearLayout commentsField = new LinearLayout(context);
+                    commentsField.setLayoutParams(layoutParamsForLiner);
                     commentsField.setOrientation(LinearLayout.HORIZONTAL);
 
                     TextView commenterName = new TextView(context);
@@ -109,10 +110,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     if (!holder.commentField.getText().toString().isEmpty() &&
                             !holder.commentField.getText().toString().trim().isEmpty()) {
 
-                        String senderName = LoggedUser.getLoggedUser().getName() +
-                                " " + LoggedUser.getLoggedUser().getSurName();
+                        String senderName = LoggedUser.getName() +
+                                " " + LoggedUser.getSurName();
 
                         LinearLayout commentsField = new LinearLayout(context);
+                        commentsField.setLayoutParams(layoutParamsForLiner);
                         commentsField.setOrientation(LinearLayout.HORIZONTAL);
 
                         TextView commenterName = new TextView(context);
@@ -183,7 +185,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         LinearLayout commentsField;
         ProgressBar commentsLoadProgress;
 
-        ImageView posterImage, userImage;
+        CircularImageView posterImage, userImage;
         TextView posterName, information;
         EditText commentField;
         Button sendButton;
@@ -195,8 +197,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             if (luseenNews == null) {
 
-                posterImage = (ImageView) itemView.findViewById(R.id.poster_image);
-                userImage = (ImageView) itemView.findViewById(R.id.sender_image);
+                posterImage = (CircularImageView) itemView.findViewById(R.id.poster_image);
+                userImage = (CircularImageView) itemView.findViewById(R.id.sender_image);
                 posterName = (TextView) itemView.findViewById(R.id.user_name);
                 information = (TextView) itemView.findViewById(R.id.info_text);
                 commentsField = (LinearLayout) itemView.findViewById(R.id.comments_field);
