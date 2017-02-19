@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#26C6DA</color>
+    <color name="colorPrimaryDark">#00ACC1</color>
+    <color name="colorAccent">#006064</color>
+
+    <color name="login_done_button_color">#267dda</color>
+
+    <color name="transparent_gray">#82c7c7c7</color>
+    <color name="transparent_cyan">#ca87e3e6</color>
+
+    <color name="selected_tab_background">#3c006064</color>
+    <color name="unselected_tab_background">#00ffffff</color>
+</resources>

@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">LuseenApp</string>
+
+    <!-- Other -->
+
+    <string name="logo_description">Luseen Logo</string>
+    <string name="login">Войти</string>
+    <string name="register">Регистрация</string>
+    <string name="cancel">Отмена</string>
+    <string name="login_tittle">Вход</string>
+    <string name="register_tittle">Регистрация</string>
+    <string name="recovery_tittle">Восстановление пароля</string>
+    <string name="error">Ошибка, просим прощения!</string>
+    <string name="forgot_password">Восстановить пароль</string>
+    <string name="recover_password">Восстановить пароль</string>
+    <string name="show_password">Ваш пароль</string>
+    <string name="recovery">Восстановить</string>
+    <string name="create">Создать</string>
+    <string name="text">Текст</string>
+    <string name="use_example">Использовать шаблон</string>
+
+    <!-- Other -->
+
+    <!-- Login&Register Fields -->
+
+    <string name="successfully_registered">Вы успешно зарегистрировались!</string>
+
+    <string name="register_name">Имя</string>
+    <string name="register_surname">Фамилия</string>
+    <string name="register_rank_tittle">Звание</string>
+    <string name="register_speciality_tittle">Специализазия</string>
+
+    <string name="login_field_hint">E-Mail или Имя пользователья</string>
+    <string name="recovery_username_hint">Имя пользователья</string>
+    <string name="register_email_field_hint">E-Mail</string>
+    <string name="password_field_hint">Пароль</string>
+    <string name="password_duplicate_field_hint">Повтор пароля</string>
+
+    <!-- Login&Register Fields -->
+
+    <!-- Spinner -->
+
+    <string name="speciality_field">--Специализация--</string>
+    <string name="rank_field">--Звание--</string>
+    <string name="date_field">Дата</string>
+    <string name="time_field">Время</string>
+
+    <string name="rank_developer">Разработчик</string>
+    <string name="rank_trainer">Трейнер</string>
+    <string name="rank_student">Студент</string>
+
+    <string name="speciality_web">Web</string>
+    <string name="speciality_java">Java</string>
+    <string name="speciality_android">Android</string>
+    <string name="speciality_ios">IOS</string>
+    <string name="speciality_sql">SQL</string>
+    <string name="speciality_linux">Linux</string>
+    <string name="speciality_server">Server Programming</string>
+
+    <!-- Spinner -->
+
+    <string name="navigation_drawer_open">Открыть</string>
+    <string name="navigation_drawer_close">Закрыть</string>
+
+    <!-- Errors -->
+
+    <string name="no_internet_connection">Нету соединение с интернетом</string>
+    <string name="no_have_permissions">У вас нету прав на это действие</string>
+    <string name="empty_fields">Заполните все поля!!</string>
+    <string name="password_fields_not_once">Пароли не совпадают!</string>
+    <string name="incorrect_login_or_password">Неправильный логин или пароль</string>
+    <string name="incorrect_data">Введена неправильная информация</string>
+    <string name="user_duplicate">Такой пользователь уже существует!</string>
+    <string name="user_mail_duplicate">Пользователь с таким E-Mail уже существует!</string>
+
+    <!-- Errors -->
+
+    <!-- LogIn&LogOut -->
+
+    <string name="question_want_to_leave">Вы точно хотите выйти из системы?</string>
+    <string name="question_want_to_leave_the_app">Вы точно хотите выйти из приложения?</string>
+    <string name="sign_out">ВЫЙТИ</string>
+    <string name="sign_in">ВОЙТИ</string>
+
+    <!-- LogIn&LogOut -->
+
+    <!-- Menu -->
+
+    <string name="settings">Настройки</string>
+    <string name="action_create_post">Создать публикацию</string>
+    <string name="menu_news">Новости</string>
+    <string name="menu_publications">Публикации</string>
+    <string name="menu_profile_settings">Настройки профиля</string>
+    <string name="menu_application_settings">Настройки приложения</string>
+    <string name="menu_my_publications">Мои публикации</string>
+    <string name="general">Главная</string>
+    <string name="user">Пользователь</string>
+
+    <!-- Menu -->
+</resources>

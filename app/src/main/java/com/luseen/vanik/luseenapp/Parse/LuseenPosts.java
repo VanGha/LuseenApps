@@ -1,0 +1,29 @@
+package com.luseen.vanik.luseenapp.Parse;
+
+
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
+@ParseClassName("LuseenPost")
+public class LuseenPosts extends ParseObject {
+
+    public String getPosterEmail() {
+        return getString("posterEmail");
+    }
+
+    public String getPosterName() {
+        return getString("PosterName");
+    }
+
+    public String getInformation() {
+        return getString("PosterInformation");
+    }
+
+    public String getComments() {
+        return getString("Comments");
+    }
+
+
+
+}
+
