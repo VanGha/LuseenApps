@@ -195,7 +195,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             if (luseenNews == null) {
 
-                posterImage = (ImageView) itemView.findViewById(R.id.user_image);
+                posterImage = (ImageView) itemView.findViewById(R.id.poster_image);
                 userImage = (ImageView) itemView.findViewById(R.id.sender_image);
                 posterName = (TextView) itemView.findViewById(R.id.user_name);
                 information = (TextView) itemView.findViewById(R.id.info_text);
