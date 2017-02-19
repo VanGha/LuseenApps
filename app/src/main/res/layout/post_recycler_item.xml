@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/info_text"
+                android:background="@color/transparent_gray"
                 android:orientation="vertical">
 
             </LinearLayout>
@@ -52,31 +53,21 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_margin="5dp"
                 android:layout_above="@id/comments_field"
+                android:layout_margin="5dp"
                 android:background="@color/colorAccent" />
 
             <RelativeLayout
-                android:layout_below="@id/comments_field"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/comments_field"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/sender_image"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="5dp" />
-
-                <EditText
-                    android:id="@+id/comment_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_toEndOf="@id/sender_image"
-                    android:layout_toLeftOf="@id/comment_send_button"
-                    android:layout_toRightOf="@id/sender_image"
-                    android:layout_toStartOf="@id/comment_send_button" />
 
                 <Button
                     android:id="@+id/comment_send_button"
@@ -88,6 +79,16 @@
                     android:background="@drawable/comment_send_button"
                     android:drawableLeft="@drawable/ic_menu_send"
                     android:drawableStart="@drawable/ic_menu_send" />
+
+                <EditText
+                    android:id="@+id/comment_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toEndOf="@id/sender_image"
+                    android:layout_toLeftOf="@id/comment_send_button"
+                    android:layout_toRightOf="@id/sender_image"
+                    android:layout_toStartOf="@id/comment_send_button" />
 
             </RelativeLayout>
 
