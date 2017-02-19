@@ -18,10 +18,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.luseen.vanik.luseenapp.Activities.Fragments.MainFragments.MainFragment;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
@@ -119,6 +124,21 @@ public class MainActivity extends AppCompatActivity
             });
 
         }
+
+        CircularImageView headerUserImage = (CircularImageView) navigationViewHeaderView.findViewById(R.id.poster_image);
+        TextView headerUserName = (TextView) navigationViewHeaderView.findViewById(R.id.header_name_field);
+        TextView headerUserSurname = (TextView) navigationViewHeaderView.findViewById(R.id.header_surname_field);
+
+        Glide.with(this)
+                .load("http://inetklub.ru/avatarki/Muzhichek_v_protivogazike.jpg")
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .crossFade()
+                .centerCrop()
+                .into(headerUserImage);
+
+
+        headerUserName.setText(loggedUser.getName());
+        headerUserSurname.setText(loggedUser.getSurName());
 
         setupMenuNews();
 
