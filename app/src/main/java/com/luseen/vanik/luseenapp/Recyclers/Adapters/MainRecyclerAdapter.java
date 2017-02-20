@@ -3,9 +3,12 @@ package com.luseen.vanik.luseenapp.Recyclers.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.siyamed.shapeimageview.CircularImageView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
@@ -29,10 +33,10 @@ import java.util.regex.Pattern;
 
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder> {
 
-    Context context;
+    private Context context;
 
-    List<LuseenPosts> luseenPosts;
-    List<LuseenNews> luseenNews;
+    private List<LuseenPosts> luseenPosts;
+    private List<LuseenNews> luseenNews;
 
     public MainRecyclerAdapter(Context context, List<LuseenPosts> luseenPosts, List<LuseenNews> luseenNews) {
         this.context = context;
@@ -53,21 +57,21 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     }
 
     @Override
-    public void onBindViewHolder(final MainViewHolder holder, final int position) {
+    public void onBindViewHolder(final MainViewHolder holder, int position) {
 
         if (luseenNews == null) {
 
-            final LinearLayout.LayoutParams layoutParamsForComments = new LinearLayout.LayoutParams(0,
-                    ViewGroup.LayoutParams.WRAP_CONTENT, 1);
-            final LinearLayout.LayoutParams layoutParamsForLiner = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            final LinearLayout.LayoutParams layoutParamsDoubleWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            final LinearLayout.LayoutParams layoutParamsMatchWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            holder.userImage.setImageDrawable(LoggedUser.getPhoto().getDrawable());
-            holder.posterName.setText(luseenPosts.get(position).getPosterName());
-            holder.posterSurname.setText(luseenPosts.get(position).getPosterSurname());
-            holder.information.setText(luseenPosts.get(position).getInformation());
+            holder.userImage.setBackground(LoggedUser.getPhoto().getDrawable());
+            holder.posterName.setText(luseenPosts.get(holder.getAdapterPosition()).getPosterName());
+            holder.posterSurname.setText(luseenPosts.get(holder.getAdapterPosition()).getPosterSurname());
+            holder.information.setText(luseenPosts.get(holder.getAdapterPosition()).getInformation());
 
-            String currentPostComments = luseenPosts.get(position).getComments();
+            String currentPostComments = luseenPosts.get(holder.getAdapterPosition()).getComments();
 
             if (!currentPostComments.isEmpty()) {
 
@@ -80,23 +84,30 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     String[] namesAndComments = aCurrentPostComment.split(Pattern.quote("-s@|ed|"));
 
                     LinearLayout commentsField = new LinearLayout(context);
-                    commentsField.setLayoutParams(layoutParamsForLiner);
+                    commentsField.setLayoutParams(layoutParamsMatchWrap);
                     commentsField.setOrientation(LinearLayout.HORIZONTAL);
 
                     TextView commenterName = new TextView(context);
-                    commenterName.setLayoutParams(layoutParamsForComments);
+                    commenterName.setLayoutParams(layoutParamsDoubleWrap);
                     commenterName.setTextColor(Color.BLACK);
+                    commenterName.setGravity(Gravity.START);
                     commenterName.setText(namesAndComments[0]);
 
+                    TextView dots = new TextView(context);
+                    dots.setLayoutParams(layoutParamsDoubleWrap);
+                    dots.setTextColor(Color.BLACK);
+                    dots.setText("  :  ");
+
                     TextView comment = new TextView(context);
-                    comment.setLayoutParams(layoutParamsForComments);
+                    comment.setLayoutParams(layoutParamsDoubleWrap);
                     comment.setTextColor(Color.GRAY);
-                    comment.setText(namesAndComments[1]);
+                    comment.setGravity(Gravity.START);
+                    comment.setText(String.valueOf(namesAndComments[1]));
 
                     commentsField.addView(commenterName);
+                    commentsField.addView(dots);
                     commentsField.addView(comment);
                     holder.commentsField.addView(commentsField);
-
 
                 }
 
@@ -115,24 +126,32 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                                 " " + LoggedUser.getSurName();
 
                         LinearLayout commentsField = new LinearLayout(context);
-                        commentsField.setLayoutParams(layoutParamsForLiner);
+                        commentsField.setLayoutParams(layoutParamsMatchWrap);
                         commentsField.setOrientation(LinearLayout.HORIZONTAL);
 
                         TextView commenterName = new TextView(context);
-                        commenterName.setLayoutParams(layoutParamsForComments);
+                        commenterName.setLayoutParams(layoutParamsDoubleWrap);
                         commenterName.setTextColor(Color.BLACK);
+                        commenterName.setGravity(Gravity.START);
                         commenterName.setText(senderName);
 
+                        TextView dots = new TextView(context);
+                        dots.setLayoutParams(layoutParamsDoubleWrap);
+                        dots.setTextColor(Color.BLACK);
+                        dots.setText("  :  ");
+
                         TextView comment = new TextView(context);
-                        comment.setLayoutParams(layoutParamsForComments);
+                        comment.setLayoutParams(layoutParamsDoubleWrap);
                         comment.setTextColor(Color.GRAY);
+                        comment.setGravity(Gravity.START);
                         comment.setText(String.valueOf(holder.commentField.getText()));
 
                         commentsField.addView(commenterName);
+                        commentsField.addView(dots);
                         commentsField.addView(comment);
                         holder.commentsField.addView(commentsField);
 
-                        addCommentToServer(senderName + "-s@|ed|" + holder.commentField.getText(), position);
+                        addCommentToServer(senderName + "-s@|ed|" + holder.commentField.getText(), holder.getAdapterPosition());
 
                         holder.commentField.setText("");
 
@@ -143,7 +162,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         } else {
 
-            holder.newsInformation.setText(luseenNews.get(position).getInformation());
+            holder.newsInformation.setText(luseenNews.get(holder.getAdapterPosition()).getInformation());
 
         }
 
