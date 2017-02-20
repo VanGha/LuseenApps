@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Activities.Fragments.MainFragments.MainFragment;
@@ -67,7 +69,10 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         final View navigationViewHeaderView = navigationView.getHeaderView(0);
+        final TextView headerUserName = (TextView) navigationViewHeaderView.findViewById(R.id.header_name_field);
+        final TextView headerUserSurname = (TextView) navigationViewHeaderView.findViewById(R.id.header_surname_field);
 
         loggedUserEmail = getIntent().getStringExtra(AppConstants.LOGGED_USER_EMAIL);
 
@@ -111,9 +116,6 @@ public class MainActivity extends AppCompatActivity
                         } else if (currentSpeciality.equals(UserSpeciality.getWeb(MainActivity.this))) {
                             navigationViewHeaderView.setBackgroundResource(R.drawable.web);
                         }
-
-                        TextView headerUserName = (TextView) navigationViewHeaderView.findViewById(R.id.header_name_field);
-                        TextView headerUserSurname = (TextView) navigationViewHeaderView.findViewById(R.id.header_surname_field);
 
                         headerUserName.setText(LoggedUser.getName());
                         headerUserSurname.setText(LoggedUser.getSurName());

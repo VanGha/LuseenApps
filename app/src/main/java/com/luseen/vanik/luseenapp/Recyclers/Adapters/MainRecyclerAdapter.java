@@ -16,8 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
@@ -70,6 +70,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.posterName.setText(luseenPosts.get(holder.getAdapterPosition()).getPosterName());
             holder.posterSurname.setText(luseenPosts.get(holder.getAdapterPosition()).getPosterSurname());
             holder.information.setText(luseenPosts.get(holder.getAdapterPosition()).getInformation());
+
+            YoYo.with(Techniques.FlipInY).duration(1000).playOn(holder.posterName);
+            YoYo.with(Techniques.FlipInX).duration(2000).playOn(holder.posterSurname);
+            YoYo.with(Techniques.Landing).duration(1000).playOn(holder.information);
+            YoYo.with(Techniques.FadeInDown).duration(500).playOn(holder.commentsField);
 
             String currentPostComments = luseenPosts.get(holder.getAdapterPosition()).getComments();
 
