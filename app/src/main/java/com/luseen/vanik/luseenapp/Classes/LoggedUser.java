@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.github.siyamed.shapeimageview.CircularImageView;
+import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Activities.LogRegActivity;
 import com.luseen.vanik.luseenapp.Activities.MainActivity;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
@@ -21,7 +22,7 @@ public class LoggedUser {
     private static String rank;
     private static String speciality;
 
-    private static CircularImageView userPhoto;
+    private static PorterShapeImageView userPhoto;
 
     public static void setEmail(String email) {
         LoggedUser.email = email;
@@ -113,11 +114,11 @@ public class LoggedUser {
         return sharedPreferences.getBoolean(AppConstants.IS_LOGGED, false);
     }
 
-    public static void setPhoto(CircularImageView photo) {
+    public static void setPhoto(PorterShapeImageView photo) {
         userPhoto = photo;
     }
 
-    public static CircularImageView getPhoto() {
+    public static PorterShapeImageView getPhoto() {
         return userPhoto;
     }
 

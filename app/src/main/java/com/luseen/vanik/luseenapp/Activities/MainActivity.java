@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.siyamed.shapeimageview.CircularImageView;
+import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Activities.Fragments.MainFragments.MainFragment;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
@@ -123,11 +124,11 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        CircularImageView headerUserImage = (CircularImageView) navigationViewHeaderView.findViewById(R.id.user_photo);
+        PorterShapeImageView headerUserImage = (PorterShapeImageView) navigationViewHeaderView.findViewById(R.id.user_photo);
 
         Glide.with(this)
                 .load("http://inetklub.ru/avatarki/Muzhichek_v_protivogazike.jpg")
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .centerCrop()
                 .into(headerUserImage);
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
-                    addPostToServer(String.valueOf(LoggedUser.getName() + " " + LoggedUser.getSurName()),
+                    addPostToServer(LoggedUser.getName(), LoggedUser.getSurName(),
                             addPostInformation.getText().toString(), loggedUserEmail);
                     updatePublications();
 
@@ -269,12 +270,13 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void addPostToServer(String posterName, String information, String posterEmail) {
+    private void addPostToServer(String posterName, String posterSurname, String information, String posterEmail) {
 
         if (InternetConnection.hasInternetConnection(MainActivity.this)) {
 
             ParseObject post = ParseObject.create(LuseenPosts.class);
             post.put("PosterName", posterName);
+            post.put("PosterSurname", posterSurname);
             post.put("PosterInformation", information);
             post.put("posterEmail", posterEmail);
             post.put("Comments", "");

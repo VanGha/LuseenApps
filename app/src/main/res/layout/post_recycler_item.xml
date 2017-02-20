@@ -18,23 +18,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.github.siyamed.shapeimageview.CircularImageView
+            <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
                 android:id="@+id/user_photo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_margin="5dp"
-                app:siBorderColor="@color/colorAccent"
-                app:siBorderWidth="3dp" />
+                app:siShape="@drawable/rounded_rectangle_photo"
+                app:siSquare="true" />
 
-            <TextView
-                android:id="@+id/user_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_toEndOf="@id/user_photo"
                 android:layout_toRightOf="@id/user_photo"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:textSize="20sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/user_surname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:textSize="20sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/info_text"
@@ -50,8 +67,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/info_text"
-                android:text="@string/comments"
-                android:gravity="start" />
+                android:gravity="start"
+                android:text="@string/comments" />
 
             <TextView
                 android:id="@+id/h_line"
@@ -78,17 +95,18 @@
                 android:layout_below="@id/comments_field"
                 android:orientation="horizontal">
 
-                <com.github.siyamed.shapeimageview.CircularImageView
+                <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
                     android:id="@+id/sender_image"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_margin="5dp"
-                    app:siBorderColor="@color/colorAccent"
-                    app:siBorderWidth="3dp" />
+                    app:siShape="@drawable/rounded_rectangle_photo"
+                    app:siSquare="true" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/small_stroke">
 
                     <Button

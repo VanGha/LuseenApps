@@ -15,6 +15,10 @@ public class LuseenPosts extends ParseObject {
         return getString("PosterName");
     }
 
+    public String getPosterSurname() {
+        return getString("PosterSurname");
+    }
+
     public String getInformation() {
         return getString("PosterInformation");
     }

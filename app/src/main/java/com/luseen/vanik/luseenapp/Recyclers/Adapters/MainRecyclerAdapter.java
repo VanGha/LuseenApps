@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.CircularImageView;
+import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
 import com.luseen.vanik.luseenapp.Parse.LuseenNews;
@@ -63,6 +64,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             holder.userImage.setImageDrawable(LoggedUser.getPhoto().getDrawable());
             holder.posterName.setText(luseenPosts.get(position).getPosterName());
+            holder.posterSurname.setText(luseenPosts.get(position).getPosterSurname());
             holder.information.setText(luseenPosts.get(position).getInformation());
 
             String currentPostComments = luseenPosts.get(position).getComments();
@@ -184,8 +186,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         LinearLayout commentsField;
         ProgressBar commentsLoadProgress;
 
-        CircularImageView posterImage, userImage;
-        TextView posterName, information;
+        PorterShapeImageView posterImage, userImage;
+        TextView posterName, posterSurname, information;
         EditText commentField;
         Button sendButton;
 
@@ -196,9 +198,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             if (luseenNews == null) {
 
-                posterImage = (CircularImageView) itemView.findViewById(R.id.user_photo);
-                userImage = (CircularImageView) itemView.findViewById(R.id.sender_image);
+                posterImage = (PorterShapeImageView) itemView.findViewById(R.id.user_photo);
+                userImage = (PorterShapeImageView) itemView.findViewById(R.id.sender_image);
                 posterName = (TextView) itemView.findViewById(R.id.user_name);
+                posterSurname = (TextView) itemView.findViewById(R.id.user_surname);
                 information = (TextView) itemView.findViewById(R.id.info_text);
                 commentsField = (LinearLayout) itemView.findViewById(R.id.comments_field);
                 commentsLoadProgress = (ProgressBar) itemView.findViewById(R.id.load_progress);
