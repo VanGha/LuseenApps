@@ -18,11 +18,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -40,14 +38,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity
@@ -87,8 +79,6 @@ public class MainActivity extends AppCompatActivity
 
                     if (e == null) {
 
-
-
                         for (int i = 0; i < users.size(); i++) {
 
                             if (users.get(i).getMail().equals(loggedUserEmail)) {
@@ -121,15 +111,19 @@ public class MainActivity extends AppCompatActivity
                             navigationViewHeaderView.setBackgroundResource(R.drawable.web);
                         }
 
+                        TextView headerUserName = (TextView) navigationViewHeaderView.findViewById(R.id.header_name_field);
+                        TextView headerUserSurname = (TextView) navigationViewHeaderView.findViewById(R.id.header_surname_field);
+
+                        headerUserName.setText(LoggedUser.getName());
+                        headerUserSurname.setText(LoggedUser.getSurName());
+
                     }
                 }
             });
 
         }
 
-        CircularImageView headerUserImage = (CircularImageView) navigationViewHeaderView.findViewById(R.id.poster_image);
-        TextView headerUserName = (TextView) navigationViewHeaderView.findViewById(R.id.header_name_field);
-        TextView headerUserSurname = (TextView) navigationViewHeaderView.findViewById(R.id.header_surname_field);
+        CircularImageView headerUserImage = (CircularImageView) navigationViewHeaderView.findViewById(R.id.user_photo);
 
         Glide.with(this)
                 .load("http://inetklub.ru/avatarki/Muzhichek_v_protivogazike.jpg")
@@ -138,9 +132,6 @@ public class MainActivity extends AppCompatActivity
                 .centerCrop()
                 .into(headerUserImage);
         LoggedUser.setPhoto(headerUserImage);
-
-        headerUserName.setText(LoggedUser.getName());
-        headerUserSurname.setText(LoggedUser.getSurName());
 
         setupMenuNews();
 

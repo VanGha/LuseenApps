@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -62,7 +61,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             final LinearLayout.LayoutParams layoutParamsForLiner = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            holder.userImage = LoggedUser.getPhoto();
+            holder.userImage.setImageDrawable(LoggedUser.getPhoto().getDrawable());
             holder.posterName.setText(luseenPosts.get(position).getPosterName());
             holder.information.setText(luseenPosts.get(position).getInformation());
 
@@ -74,9 +73,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                 holder.commentsLoadProgress.setVisibility(View.VISIBLE);
 
-                for (int i = 0; i < currentPostComment.length; i++) {
+                for (String aCurrentPostComment : currentPostComment) {
 
-                    String[] namesAndComments = currentPostComment[i].split(Pattern.quote("-s@|ed|"));
+                    String[] namesAndComments = aCurrentPostComment.split(Pattern.quote("-s@|ed|"));
 
                     LinearLayout commentsField = new LinearLayout(context);
                     commentsField.setLayoutParams(layoutParamsForLiner);
@@ -197,7 +196,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             if (luseenNews == null) {
 
-                posterImage = (CircularImageView) itemView.findViewById(R.id.poster_image);
+                posterImage = (CircularImageView) itemView.findViewById(R.id.user_photo);
                 userImage = (CircularImageView) itemView.findViewById(R.id.sender_image);
                 posterName = (TextView) itemView.findViewById(R.id.user_name);
                 information = (TextView) itemView.findViewById(R.id.info_text);
