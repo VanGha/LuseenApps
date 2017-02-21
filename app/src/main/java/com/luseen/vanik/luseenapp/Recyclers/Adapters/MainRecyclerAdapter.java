@@ -76,100 +76,26 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             YoYo.with(Techniques.Landing).duration(1000).playOn(holder.information);
             YoYo.with(Techniques.FadeInDown).duration(500).playOn(holder.commentsField);
 
-            String currentPostComments = luseenPosts.get(holder.getAdapterPosition()).getComments();
 
-            if (!currentPostComments.isEmpty()) {
-
-                String[] currentPostComment = currentPostComments.split(Pattern.quote("|=|s-p|-"));
-
-                holder.commentsLoadProgress.setVisibility(View.VISIBLE);
-
-                for (String aCurrentPostComment : currentPostComment) {
-
-                    String[] namesAndComments = aCurrentPostComment.split(Pattern.quote("-s@|ed|"));
-
-                    LinearLayout commentsField = new LinearLayout(context);
-                    commentsField.setLayoutParams(layoutParamsMatchWrap);
-                    commentsField.setOrientation(LinearLayout.HORIZONTAL);
-
-                    TextView commenterName = new TextView(context);
-                    commenterName.setLayoutParams(layoutParamsDoubleWrap);
-                    commenterName.setTextColor(Color.BLACK);
-                    commenterName.setGravity(Gravity.START);
-                    commenterName.setText(namesAndComments[0]);
-
-                    TextView dots = new TextView(context);
-                    dots.setLayoutParams(layoutParamsDoubleWrap);
-                    dots.setTextColor(Color.BLACK);
-                    dots.setText("  :  ");
-
-                    TextView comment = new TextView(context);
-                    comment.setLayoutParams(layoutParamsDoubleWrap);
-                    comment.setTextColor(Color.GRAY);
-                    comment.setGravity(Gravity.START);
-                    comment.setText(String.valueOf(namesAndComments[1]));
-
-                    commentsField.addView(commenterName);
-                    commentsField.addView(dots);
-                    commentsField.addView(comment);
-                    holder.commentsField.addView(commentsField);
-
-                }
-
-                holder.commentsLoadProgress.setVisibility(View.GONE);
-
-            }
-
-            holder.sendButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    if (!holder.commentField.getText().toString().isEmpty() &&
-                            !holder.commentField.getText().toString().trim().isEmpty()) {
-
-                        String senderName = LoggedUser.getName() +
-                                " " + LoggedUser.getSurName();
-
-                        LinearLayout commentsField = new LinearLayout(context);
-                        commentsField.setLayoutParams(layoutParamsMatchWrap);
-                        commentsField.setOrientation(LinearLayout.HORIZONTAL);
-
-                        TextView commenterName = new TextView(context);
-                        commenterName.setLayoutParams(layoutParamsDoubleWrap);
-                        commenterName.setTextColor(Color.BLACK);
-                        commenterName.setGravity(Gravity.START);
-                        commenterName.setText(senderName);
-
-                        TextView dots = new TextView(context);
-                        dots.setLayoutParams(layoutParamsDoubleWrap);
-                        dots.setTextColor(Color.BLACK);
-                        dots.setText("  :  ");
-
-                        TextView comment = new TextView(context);
-                        comment.setLayoutParams(layoutParamsDoubleWrap);
-                        comment.setTextColor(Color.GRAY);
-                        comment.setGravity(Gravity.START);
-                        comment.setText(String.valueOf(holder.commentField.getText()));
-
-                        commentsField.addView(commenterName);
-                        commentsField.addView(dots);
-                        commentsField.addView(comment);
-                        holder.commentsField.addView(commentsField);
-
-                        addCommentToServer(senderName + "-s@|ed|" + holder.commentField.getText(), holder.getAdapterPosition());
-
-                        holder.commentField.setText("");
-
-                    }
-                }
-
-            });
-
-        } else {
-
-            holder.newsInformation.setText(luseenNews.get(holder.getAdapterPosition()).getInformation());
+            holder.commentsLoadProgress.setVisibility(View.GONE);
 
         }
+
+        holder.sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!holder.commentField.getText().toString().isEmpty() &&
+                        !holder.commentField.getText().toString().trim().isEmpty()) {
+
+
+                    holder.commentField.setText("");
+
+                }
+            }
+
+        });
+
 
     }
 
@@ -184,8 +110,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                     if (e == null) {
 
-                        post.put("Comments", String.valueOf(luseenPosts.get(postPosition).getComments() + comment + "|=|s-p|-"));
-                        post.saveInBackground();
+
 
                     }
 

@@ -12,6 +12,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -76,6 +79,18 @@ public class MainActivity extends AppCompatActivity
         final TextView headerUserSurname = (TextView) navigationViewHeaderView.findViewById(R.id.header_surname_field);
 
         loggedUserEmail = getIntent().getStringExtra(AppConstants.LOGGED_USER_EMAIL);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!drawer.isDrawerOpen(GravityCompat.START)) {
+                    YoYo.with(Techniques.FlipInX).duration(1000).playOn(headerUserName);
+                    YoYo.with(Techniques.FlipInX).duration(2000).playOn(headerUserSurname);
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
 
         if (InternetConnection.hasInternetConnection(this)) {
 
@@ -139,7 +154,7 @@ public class MainActivity extends AppCompatActivity
 
         Glide.with(this)
                 .load("http://inetklub.ru/avatarki/Muzhichek_v_protivogazike.jpg")
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .crossFade()
                 .centerCrop()
                 .into(headerUserImage);

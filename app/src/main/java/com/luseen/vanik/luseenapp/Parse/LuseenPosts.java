@@ -23,11 +23,5 @@ public class LuseenPosts extends ParseObject {
         return getString("PosterInformation");
     }
 
-    public String getComments() {
-        return getString("Comments");
-    }
-
-
-
 }
 
