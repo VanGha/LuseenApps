@@ -114,6 +114,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 @Override
                 public void onClick(View view) {
 
+                    holder.commentsLoadProgress.setVisibility(View.VISIBLE);
+
                     if (!holder.commentField.getText().toString().isEmpty() &&
                             !holder.commentField.getText().toString().trim().isEmpty()) {
 
@@ -121,9 +123,16 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                                 holder.commentField.getText().toString(),
                                 luseenPosts.get(holder.getAdapterPosition()).getObjectId());
 
+                        holder.commentsField.addView(createCommentView(
+                                LoggedUser.getName(),
+                                LoggedUser.getSurName(),
+                                holder.commentField.getText().toString()));
+
                         holder.commentField.setText("");
 
                     }
+
+                    holder.commentsLoadProgress.setVisibility(View.GONE);
                 }
 
             });
