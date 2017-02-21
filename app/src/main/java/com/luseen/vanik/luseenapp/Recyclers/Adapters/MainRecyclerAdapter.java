@@ -3,19 +3,16 @@ package com.luseen.vanik.luseenapp.Recyclers.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -33,7 +30,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder> {
 
@@ -87,7 +83,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                     if (postsComments.get(i).getPostId().equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId())) {
 
-
+                                        holder.commentsField.addView(createCommentView(
+                                                postsComments.get(i).getSenderName(),
+                                                postsComments.get(i).getSenderSurname(),
+                                                postsComments.get(i).getComment()));
 
                                     }
 
@@ -99,6 +98,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 }
 
             } else {
+
+                holder.commentsField.addView(createEmptyCommentView());
 
             }
 
@@ -130,6 +131,62 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         } else {
             holder.newsInformation.setText(luseenNews.get(holder.getAdapterPosition()).getInformation());
         }
+
+    }
+
+    private View createCommentView(String senderName, String senderSurname, String comment) {
+
+        LinearLayout.LayoutParams doubleWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams wrapAndMatch = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        LinearLayout commentBody = new LinearLayout(context);
+        commentBody.setLayoutParams(wrapAndMatch);
+
+        TextView senderNameText = new TextView(context);
+        senderNameText.setLayoutParams(doubleWrap);
+        senderNameText.setGravity(Gravity.START);
+        senderNameText.setTextColor(Color.BLACK);
+        senderNameText.setText(senderName);
+
+        TextView senderSurnameText = new TextView(context);
+        senderSurnameText.setLayoutParams(doubleWrap);
+        senderSurnameText.setGravity(Gravity.START);
+        senderSurnameText.setTextColor(Color.BLACK);
+        senderSurnameText.setText(senderSurname);
+
+        TextView dots = new TextView(context);
+        dots.setLayoutParams(doubleWrap);
+        dots.setTextColor(Color.BLACK);
+        dots.setGravity(Gravity.CENTER);
+        dots.setText("  : ");
+
+        TextView commentText = new TextView(context);
+        commentText.setLayoutParams(doubleWrap);
+        commentText.setGravity(Gravity.START);
+        commentText.setText(comment);
+
+        commentBody.addView(senderNameText);
+        commentBody.addView(senderSurnameText);
+        commentBody.addView(dots);
+        commentBody.addView(commentText);
+
+        return commentBody;
+
+    }
+
+    private View createEmptyCommentView() {
+
+        LinearLayout.LayoutParams doubleMatch = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+
+        TextView emptyComment = new TextView(context);
+        emptyComment.setLayoutParams(doubleMatch);
+        emptyComment.setGravity(Gravity.CENTER);
+        emptyComment.setText(R.string.no_comments);
+
+        return emptyComment;
 
     }
 
