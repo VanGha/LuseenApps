@@ -18,6 +18,7 @@ public class App extends Application {
         ParseObject.registerSubclass(LuseenUsers.class);
         ParseObject.registerSubclass(LuseenPosts.class);
         ParseObject.registerSubclass(LuseenNews.class);
+        ParseObject.registerSubclass(LuseenPostComment.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this).applicationId(APPLICATION_ID)
                 .server(SERVER_URL).build());

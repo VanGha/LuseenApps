@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
-                    addPostToServer(LoggedUser.getName(), LoggedUser.getSurName(),
+                    addPostToServer(LoggedUser.getSpeciality(), LoggedUser.getName(), LoggedUser.getSurName(),
                             addPostInformation.getText().toString(), loggedUserEmail);
                     updatePublications();
 
@@ -296,16 +296,18 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void addPostToServer(String posterName, String posterSurname, String information, String posterEmail) {
+    private void addPostToServer(String postSpeciality, String posterName, String posterSurname,
+                                 String information, String posterEmail) {
 
         if (InternetConnection.hasInternetConnection(MainActivity.this)) {
 
             ParseObject post = ParseObject.create(LuseenPosts.class);
+            post.put("PostSpeciality", postSpeciality);
             post.put("PosterName", posterName);
             post.put("PosterSurname", posterSurname);
             post.put("PosterInformation", information);
             post.put("posterEmail", posterEmail);
-            post.put("Comments", "");
+            post.put("HasComments", false);
 
             post.saveInBackground();
 

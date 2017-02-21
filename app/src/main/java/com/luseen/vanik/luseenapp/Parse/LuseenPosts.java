@@ -23,5 +23,13 @@ public class LuseenPosts extends ParseObject {
         return getString("PosterInformation");
     }
 
+    public String getPostSpeciality() {
+        return getString("PostSpeciality");
+    }
+
+    public boolean hasComments() {
+        return getBoolean("HasComments");
+    }
+
 }
 

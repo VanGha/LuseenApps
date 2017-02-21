@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -25,6 +26,7 @@ import com.luseen.vanik.luseenapp.Parse.LuseenNews;
 import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -70,7 +72,37 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             holder.commentsLoadProgress.setVisibility(View.VISIBLE);
 
+            if (luseenPosts.get(holder.getAdapterPosition()).hasComments()) {
 
+                if (InternetConnection.hasInternetConnection(context)) {
+
+                    ParseQuery<LuseenPostComment> luseenPostCommentQuery = ParseQuery.getQuery(LuseenPostComment.class);
+                    luseenPostCommentQuery.findInBackground(new FindCallback<LuseenPostComment>() {
+                        @Override
+                        public void done(List<LuseenPostComment> postsComments, ParseException e) {
+
+                            if (e == null) {
+
+                                for (int i = 0; i < postsComments.size(); i++) {
+
+                                    if (postsComments.get(i).getPostId().equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId())) {
+
+                                        Toast.makeText(context, postsComments.get(i).getSenderName() +
+                                                " " + postsComments.get(i).getSenderSurname() + " : "
+                                                + postsComments.get(i).getComment(), Toast.LENGTH_SHORT).show();
+
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+                }
+
+            } else {
+
+            }
 
             YoYo.with(Techniques.FlipInY).duration(1000).playOn(holder.posterName);
             YoYo.with(Techniques.FlipInX).duration(2000).playOn(holder.posterSurname);
@@ -115,6 +147,18 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             postComment.put("PostId", postId);
 
             postComment.saveInBackground();
+
+            ParseQuery<LuseenPosts> luseenPostsQuery = ParseQuery.getQuery(LuseenPosts.class);
+            luseenPostsQuery.getInBackground(postId, new GetCallback<LuseenPosts>() {
+                @Override
+                public void done(LuseenPosts post, ParseException e) {
+
+                    post.put("HasComments", true);
+
+                    post.saveInBackground();
+
+                }
+            });
 
         }
 
