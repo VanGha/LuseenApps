@@ -87,9 +87,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                     if (postsComments.get(i).getPostId().equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId())) {
 
-                                        Toast.makeText(context, postsComments.get(i).getSenderName() +
-                                                " " + postsComments.get(i).getSenderSurname() + " : "
-                                                + postsComments.get(i).getComment(), Toast.LENGTH_SHORT).show();
+
 
                                     }
 
