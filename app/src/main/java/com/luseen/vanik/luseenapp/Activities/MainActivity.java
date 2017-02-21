@@ -3,6 +3,7 @@ package com.luseen.vanik.luseenapp.Activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -103,16 +104,24 @@ public class MainActivity extends AppCompatActivity
 
                         if (currentSpeciality.equals(UserSpeciality.getAndroid(MainActivity.this))) {
                             navigationViewHeaderView.setBackgroundResource(R.drawable.android);
+                            headerUserName.setTextColor(Color.BLACK);
+                            headerUserSurname.setTextColor(Color.BLACK);
                         } else if (currentSpeciality.equals(UserSpeciality.getIOS(MainActivity.this))) {
                             navigationViewHeaderView.setBackgroundResource(R.drawable.swift);
+                            headerUserName.setTextColor(Color.BLACK);
+                            headerUserSurname.setTextColor(Color.BLACK);
                         } else if (currentSpeciality.equals(UserSpeciality.getJava(MainActivity.this))) {
                             navigationViewHeaderView.setBackgroundResource(R.drawable.java);
                         } else if (currentSpeciality.equals(UserSpeciality.getServer(MainActivity.this))) {
                             navigationViewHeaderView.setBackgroundResource(R.drawable.server);
                         } else if (currentSpeciality.equals(UserSpeciality.getLinux(MainActivity.this))) {
                             navigationViewHeaderView.setBackgroundResource(R.drawable.linux);
+                            headerUserName.setTextColor(Color.BLACK);
+                            headerUserSurname.setTextColor(Color.BLACK);
                         } else if (currentSpeciality.equals(UserSpeciality.getSQL(MainActivity.this))) {
                             navigationViewHeaderView.setBackgroundResource(R.drawable.sql);
+                            headerUserName.setTextColor(Color.BLACK);
+                            headerUserSurname.setTextColor(Color.BLACK);
                         } else if (currentSpeciality.equals(UserSpeciality.getWeb(MainActivity.this))) {
                             navigationViewHeaderView.setBackgroundResource(R.drawable.web);
                         }

@@ -9,7 +9,7 @@
         android:id="@+id/info_cards"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="1dp"
+        android:layout_margin="3dp"
         card_view:cardCornerRadius="5dp"
         card_view:cardElevation="5dp"
         card_view:contentPadding="5dp">
@@ -39,8 +39,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="start"
-                    android:textSize="20sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/user_surname"
@@ -48,8 +48,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="start"
-                    android:textSize="20sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -78,21 +78,34 @@
                 android:layout_margin="5dp"
                 android:background="@color/colorAccent" />
 
+            <ScrollView
+                android:id="@+id/scrollViewComments"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/h_line">
+
+                <LinearLayout
+                    android:id="@+id/comments_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+                    <ProgressBar
+                        android:id="@+id/load_progress"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
             <LinearLayout
-                android:id="@+id/comments_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/h_line"
-                android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/comments_field"
+                android:layout_below="@id/scrollViewComments"
                 android:orientation="horizontal">
 
                 <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
@@ -131,15 +144,6 @@
                 </RelativeLayout>
 
             </LinearLayout>
-
-
-            <ProgressBar
-                android:id="@+id/load_progress"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_below="@id/comments_field"
-                android:layout_centerHorizontal="true"
-                android:visibility="gone" />
 
         </RelativeLayout>
 
