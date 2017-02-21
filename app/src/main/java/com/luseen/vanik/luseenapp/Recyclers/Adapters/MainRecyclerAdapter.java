@@ -22,10 +22,12 @@ import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
 import com.luseen.vanik.luseenapp.Parse.LuseenNews;
+import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.List;
@@ -61,61 +63,59 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         if (luseenNews == null) {
 
-            final LinearLayout.LayoutParams layoutParamsDoubleWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            final LinearLayout.LayoutParams layoutParamsMatchWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-
             holder.userImage.setBackground(LoggedUser.getPhoto().getDrawable());
             holder.posterName.setText(luseenPosts.get(holder.getAdapterPosition()).getPosterName());
             holder.posterSurname.setText(luseenPosts.get(holder.getAdapterPosition()).getPosterSurname());
             holder.information.setText(luseenPosts.get(holder.getAdapterPosition()).getInformation());
+
+            holder.commentsLoadProgress.setVisibility(View.VISIBLE);
+
+
 
             YoYo.with(Techniques.FlipInY).duration(1000).playOn(holder.posterName);
             YoYo.with(Techniques.FlipInX).duration(2000).playOn(holder.posterSurname);
             YoYo.with(Techniques.Landing).duration(1000).playOn(holder.information);
             YoYo.with(Techniques.FadeInDown).duration(500).playOn(holder.commentsField);
 
-
             holder.commentsLoadProgress.setVisibility(View.GONE);
 
-        }
+            holder.sendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-        holder.sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                    if (!holder.commentField.getText().toString().isEmpty() &&
+                            !holder.commentField.getText().toString().trim().isEmpty()) {
 
-                if (!holder.commentField.getText().toString().isEmpty() &&
-                        !holder.commentField.getText().toString().trim().isEmpty()) {
+                        addCommentToServer(LoggedUser.getName(), LoggedUser.getSurName(),
+                                holder.commentField.getText().toString(),
+                                luseenPosts.get(holder.getAdapterPosition()).getObjectId());
 
+                        holder.commentField.setText("");
 
-                    holder.commentField.setText("");
-
+                    }
                 }
-            }
 
-        });
+            });
 
+        } else {
+            holder.newsInformation.setText(luseenNews.get(holder.getAdapterPosition()).getInformation());
+        }
 
     }
 
-    private void addCommentToServer(final String comment, final int postPosition) {
+    private void addCommentToServer(String senderName, String senderSurname, String comment, String postId) {
 
         if (InternetConnection.hasInternetConnection(context)) {
 
-            ParseQuery<LuseenPosts> postsParseQuery = ParseQuery.getQuery(LuseenPosts.class);
-            postsParseQuery.getInBackground(luseenPosts.get(postPosition).getObjectId(), new GetCallback<LuseenPosts>() {
-                @Override
-                public void done(LuseenPosts post, ParseException e) {
+            ParseObject postComment = ParseObject.create(LuseenPostComment.class);
 
-                    if (e == null) {
+            postComment.put("SenderName", senderName);
+            postComment.put("SenderSurname", senderSurname);
+            postComment.put("Comment", comment);
+            postComment.put("PostId", postId);
 
+            postComment.saveInBackground();
 
-
-                    }
-
-                }
-            });
         }
 
     }
