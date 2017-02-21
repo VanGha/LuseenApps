@@ -119,6 +119,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     if (!holder.commentField.getText().toString().isEmpty() &&
                             !holder.commentField.getText().toString().trim().isEmpty()) {
 
+                        if (!luseenPosts.get(holder.getAdapterPosition()).hasComments())
+                            holder.commentsField.removeAllViewsInLayout();
+
                         addCommentToServer(LoggedUser.getName(), LoggedUser.getSurName(),
                                 holder.commentField.getText().toString(),
                                 luseenPosts.get(holder.getAdapterPosition()).getObjectId());
