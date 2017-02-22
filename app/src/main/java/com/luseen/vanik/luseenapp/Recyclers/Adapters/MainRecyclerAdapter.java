@@ -3,6 +3,7 @@ package com.luseen.vanik.luseenapp.Recyclers.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,6 +60,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     @Override
     public void onBindViewHolder(final MainViewHolder holder, int position) {
+
+        YoYo.with(Techniques.SlideInLeft).duration(500).playOn(holder.cardView);
 
         if (luseenNews == null) {
 
@@ -250,6 +253,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     class MainViewHolder extends RecyclerView.ViewHolder {
 
+        CardView cardView;
+
         LinearLayout commentsField;
         RelativeLayout commentCreateField;
         ProgressBar commentsLoadProgress;
@@ -263,6 +268,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         MainViewHolder(View itemView) {
             super(itemView);
+
+            cardView = (CardView) itemView.findViewById(R.id.info_cards);
 
             if (luseenNews == null) {
 

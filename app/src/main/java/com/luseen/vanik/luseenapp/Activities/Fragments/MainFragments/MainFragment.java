@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,9 @@ import com.luseen.vanik.luseenapp.Parse.LuseenNews;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
 import com.luseen.vanik.luseenapp.Recyclers.Adapters.MainRecyclerAdapter;
+import com.mikepenz.itemanimators.DefaultAnimator;
+import com.mikepenz.itemanimators.ScaleUpAnimator;
+import com.mikepenz.itemanimators.SlideDownAlphaAnimator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -32,7 +36,7 @@ public class MainFragment extends Fragment {
     static Context context;
     ProgressBar loadingProgress;
 
-    RecyclerView mainElementsRecycler;
+    static RecyclerView mainElementsRecycler;
     static MainRecyclerAdapter recyclerAdapter;
 
     public static MainFragment newInstance(String menu, String posterEmail) {
@@ -63,6 +67,7 @@ public class MainFragment extends Fragment {
         context = getContext();
 
         mainElementsRecycler = (RecyclerView) view.findViewById(R.id.main_elements_recycler);
+        mainElementsRecycler.setItemAnimator(new DefaultItemAnimator());
         loadingProgress = (ProgressBar) view.findViewById(R.id.load_progress);
         loadingProgress.setVisibility(View.VISIBLE);
 
@@ -137,11 +142,11 @@ public class MainFragment extends Fragment {
 
     public static void updateRecycler(List<LuseenPosts> posts) {
 
-        if (posts.size() > 1)
-            Collections.swap(posts, posts.size() - 1, 0);
+        Collections.reverse(posts);
 
         recyclerAdapter.setLuseenPosts(posts);
         recyclerAdapter.notifyDataSetChanged();
+        mainElementsRecycler.scrollToPosition(0);
 
     }
 
