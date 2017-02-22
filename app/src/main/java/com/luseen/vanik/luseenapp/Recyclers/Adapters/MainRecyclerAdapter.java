@@ -205,6 +205,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     }
 
+    public void setLuseenPosts(List<LuseenPosts> luseenPosts) {
+        this.luseenPosts = luseenPosts;
+    }
+
     private void addCommentToServer(String senderName, String senderSurname, String comment, String postId) {
 
         if (InternetConnection.hasInternetConnection(context)) {

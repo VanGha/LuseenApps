@@ -12,8 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.DragEvent;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +28,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.github.siyamed.shapeimageview.CircularImageView;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Activities.Fragments.MainFragments.MainFragment;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
@@ -47,6 +44,8 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity
@@ -235,8 +234,29 @@ public class MainActivity extends AppCompatActivity
 
                     addPostToServer(LoggedUser.getSpeciality(), LoggedUser.getName(), LoggedUser.getSurName(),
                             addPostInformation.getText().toString(), loggedUserEmail);
-                    updatePublications();
 
+                    if (InternetConnection.hasInternetConnection(MainActivity.this)) {
+
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+
+                                ParseQuery<LuseenPosts> luseenPostsParseQuery = ParseQuery.getQuery(LuseenPosts.class);
+                                luseenPostsParseQuery.findInBackground(new FindCallback<LuseenPosts>() {
+                                    @Override
+                                    public void done(List<LuseenPosts> posts, ParseException e) {
+
+                                        if (e == null) {
+                                            MainFragment.updateRecycler(posts);
+                                        }
+
+                                    }
+                                });
+
+                            }
+                        }, 500);
+                    }
                 }
             });
 
@@ -388,20 +408,6 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-    }
-
-    private void updatePublications() {
-
-        if (InternetConnection.hasInternetConnection(MainActivity.this)) {
-
-            ParseQuery<LuseenPosts> luseenPostsParseQuery = ParseQuery.getQuery(LuseenPosts.class);
-            luseenPostsParseQuery.findInBackground(new FindCallback<LuseenPosts>() {
-                @Override
-                public void done(List<LuseenPosts> posts, ParseException e) {
-                    new MainFragment().updateRecycler(posts);
-                }
-            });
-        }
     }
 
 }

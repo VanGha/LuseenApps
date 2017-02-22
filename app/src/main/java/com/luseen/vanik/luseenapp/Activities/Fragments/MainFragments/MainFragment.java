@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
@@ -25,17 +24,16 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainFragment extends Fragment {
 
-    Context context;
+    static Context context;
     ProgressBar loadingProgress;
 
     RecyclerView mainElementsRecycler;
-    MainRecyclerAdapter recyclerAdapter;
-
-    List<LuseenPosts> updatedPosts;
+    static MainRecyclerAdapter recyclerAdapter;
 
     public static MainFragment newInstance(String menu, String posterEmail) {
 
@@ -122,11 +120,11 @@ public class MainFragment extends Fragment {
 
                     if (e == null) {
 
-                        updatedPosts = posts;
-
                         loadingProgress.setVisibility(View.GONE);
 
-                        recyclerAdapter = new MainRecyclerAdapter(getContext(), updatedPosts, null);
+                        Collections.reverse(posts);
+
+                        recyclerAdapter = new MainRecyclerAdapter(getContext(), posts, null);
                         mainElementsRecycler.setAdapter(recyclerAdapter);
                         mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                                 LinearLayoutManager.VERTICAL, false));
@@ -137,9 +135,12 @@ public class MainFragment extends Fragment {
         }
     }
 
-    public void updateRecycler(List<LuseenPosts> newPosts) {
+    public static void updateRecycler(List<LuseenPosts> posts) {
 
-        recyclerAdapter = new MainRecyclerAdapter(getContext(), newPosts, null);
+        if (posts.size() > 1)
+            Collections.swap(posts, posts.size() - 1, 0);
+
+        recyclerAdapter.setLuseenPosts(posts);
         recyclerAdapter.notifyDataSetChanged();
 
     }
@@ -167,6 +168,8 @@ public class MainFragment extends Fragment {
                                 currentUserPosts.add(posts.get(i));
 
                         }
+
+                        Collections.reverse(currentUserPosts);
 
                         recyclerAdapter = new MainRecyclerAdapter(getContext(), currentUserPosts, null);
                         mainElementsRecycler.setAdapter(recyclerAdapter);
