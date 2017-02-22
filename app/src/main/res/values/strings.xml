@@ -20,6 +20,7 @@
     <string name="use_example">Использовать шаблон</string>
     <string name="comments">Комментарии</string>
     <string name="no_comments">Нет комментариев!</string>
+    <string name="accaunt">Аккаунт</string>
 
     <!-- Other -->
 
@@ -81,8 +82,8 @@
 
     <string name="question_want_to_leave">Вы точно хотите выйти из системы?</string>
     <string name="question_want_to_leave_the_app">Вы точно хотите выйти из приложения?</string>
-    <string name="sign_out">ВЫЙТИ</string>
-    <string name="sign_in">ВОЙТИ</string>
+    <string name="log_out">ВЫЙТИ</string>
+    <string name="log_in">ВОЙТИ</string>
 
     <!-- LogIn&LogOut -->
 

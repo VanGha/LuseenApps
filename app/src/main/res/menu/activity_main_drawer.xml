@@ -8,11 +8,11 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/menu_news"
-                    android:icon="@drawable/ic_menu_camera"
+                    android:icon="@drawable/file_document_box"
                     android:title="@string/menu_news" />
                 <item
                     android:id="@+id/menu_publications"
-                    android:icon="@drawable/ic_menu_gallery"
+                    android:icon="@drawable/library_books"
                     android:title="@string/menu_publications" />
             </group>
 
@@ -27,7 +27,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/menu_my_posts"
-                    android:icon="@drawable/ic_menu_camera"
+                    android:icon="@drawable/file_document_box"
                     android:title="@string/menu_my_publications" />
 
             </group>
@@ -44,10 +44,23 @@
 
                 <item
                     android:id="@+id/menu_application_settings"
-                    android:icon="@drawable/ic_menu_manage"
+                    android:icon="@drawable/settings"
                     android:title="@string/menu_application_settings" />
 
             </group>
+
+        </menu>
+
+    </item>
+
+    <item android:title="@string/accaunt">
+
+        <menu>
+
+            <item
+                android:id="@+id/menu_acc_log_out"
+                android:icon="@drawable/logout_variant"
+                android:title="@string/log_out" />
 
         </menu>
 

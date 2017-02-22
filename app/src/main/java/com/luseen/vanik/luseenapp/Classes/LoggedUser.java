@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.github.siyamed.shapeimageview.CircularImageView;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Activities.LogRegActivity;
 import com.luseen.vanik.luseenapp.Activities.MainActivity;
@@ -95,7 +94,7 @@ public class LoggedUser {
         editor.apply();
 
         Snackbar.make(snackBarView, R.string.question_want_to_leave, Snackbar.LENGTH_LONG).
-                setAction(R.string.sign_out, new View.OnClickListener() {
+                setAction(R.string.log_out, new View.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {

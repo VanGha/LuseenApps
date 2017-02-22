@@ -23,7 +23,6 @@ import com.luseen.vanik.luseenapp.Activities.LogRegActivity;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
-import com.luseen.vanik.luseenapp.Dialogs.CustomDialog;
 import com.luseen.vanik.luseenapp.Parse.LuseenUsers;
 import com.luseen.vanik.luseenapp.R;
 import com.parse.FindCallback;
@@ -178,7 +177,7 @@ public class RegisterFragment extends Fragment {
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
                                             builder.setMessage(getResources().getString(R.string.successfully_registered));
-                                            builder.setPositiveButton(getResources().getString(R.string.sign_in),
+                                            builder.setPositiveButton(getResources().getString(R.string.log_in),
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialogInterface, int i) {

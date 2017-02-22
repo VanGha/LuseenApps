@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 
 import com.luseen.vanik.luseenapp.Activities.Fragments.Adapters.LogRegPageAdapter;
 import com.luseen.vanik.luseenapp.R;
@@ -43,7 +42,7 @@ public class LogRegActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage(R.string.question_want_to_leave_the_app);
-        builder.setPositiveButton(R.string.sign_out, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.log_out, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 finishAffinity();
