@@ -98,6 +98,7 @@
     <string name="menu_my_publications">Мои публикации</string>
     <string name="general">Главная</string>
     <string name="user">Пользователь</string>
+    <string name="information">Информация</string>
 
     <!-- Menu -->
 </resources>

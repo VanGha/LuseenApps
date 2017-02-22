@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
 
     String loggedUserEmail;
     String currentMenu;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,24 +179,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+        this.menu = menu;
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        if (currentMenu != null) {
-
-            if (currentMenu.equals(AppConstants.TAG_MENU_NEWS) ||
-                    LoggedUser.getRank().equals(getResources().getString(R.string.rank_student))) {
-                menu.getItem(0).setEnabled(false);
-            } else {
-                menu.getItem(0).setEnabled(true);
-            }
-
+        if (currentMenu.equals(AppConstants.TAG_MENU_NEWS) ||
+                LoggedUser.getRank().equals(getResources().getString(R.string.rank_student))) {
+            menu.setGroupVisible(0, false);
         }
 
-        return super.onPrepareOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -322,8 +313,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.menu_news) {
             setupMenuNews();
+            menu.setGroupVisible(0, false);
         } else if (id == R.id.menu_publications) {
             setupMenuPublications();
+            menu.setGroupVisible(0, true);
         } else if (id == R.id.menu_application_settings) {
 
             Intent toSettingsActivity = new Intent(MainActivity.this, SettingsActivity.class);
@@ -333,6 +326,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.menu_my_posts) {
             setupMenuMyPublications();
+            menu.setGroupVisible(0, false);
         } else if (id == R.id.menu_acc_log_out) {
             LoggedUser.logout(MainActivity.this, navigationView);
         }

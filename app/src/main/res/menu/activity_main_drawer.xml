@@ -57,10 +57,19 @@
 
         <menu>
 
-            <item
-                android:id="@+id/menu_acc_log_out"
-                android:icon="@drawable/logout_variant"
-                android:title="@string/log_out" />
+            <group>
+
+                <item
+                    android:id="@+id/menu_user_info"
+                    android:icon="@drawable/information"
+                    android:title="@string/information" />
+
+                <item
+                    android:id="@+id/menu_acc_log_out"
+                    android:icon="@drawable/logout_variant"
+                    android:title="@string/log_out" />
+
+            </group>
 
         </menu>
 

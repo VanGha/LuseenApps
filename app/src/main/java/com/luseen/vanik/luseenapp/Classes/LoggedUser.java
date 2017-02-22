@@ -87,11 +87,7 @@ public class LoggedUser {
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.LOGGED_USER_SHARED_PREFERENCE,
                 Context.MODE_PRIVATE);
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putBoolean(AppConstants.IS_LOGGED, false);
-
-        editor.apply();
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
 
         Snackbar.make(snackBarView, R.string.question_want_to_leave, Snackbar.LENGTH_LONG).
                 setAction(R.string.log_out, new View.OnClickListener() {
@@ -99,6 +95,8 @@ public class LoggedUser {
                     @Override
                     public void onClick(View view) {
                         context.startActivity(new Intent(context, LogRegActivity.class));
+                        editor.putBoolean(AppConstants.IS_LOGGED, false);
+                        editor.apply();
                     }
 
                 }).show();
