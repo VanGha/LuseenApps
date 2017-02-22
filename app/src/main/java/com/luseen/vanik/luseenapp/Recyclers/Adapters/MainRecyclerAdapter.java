@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -120,7 +121,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                             !holder.commentField.getText().toString().trim().isEmpty()) {
 
                         if (!luseenPosts.get(holder.getAdapterPosition()).hasComments())
-                            holder.commentsField.removeAllViewsInLayout();
+                            holder.commentsField.removeViewAt(1);
 
                         addCommentToServer(LoggedUser.getName(), LoggedUser.getSurName(),
                                 holder.commentField.getText().toString(),
@@ -133,6 +134,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                         holder.commentField.setText("");
 
+                    } else {
+                        YoYo.with(Techniques.Shake).duration(500).playOn(holder.commentCreateField);
                     }
 
                     holder.commentsLoadProgress.setVisibility(View.GONE);
@@ -244,6 +247,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     class MainViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout commentsField;
+        RelativeLayout commentCreateField;
         ProgressBar commentsLoadProgress;
 
         PorterShapeImageView posterImage, userImage;
@@ -264,6 +268,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 posterSurname = (TextView) itemView.findViewById(R.id.user_surname);
                 information = (TextView) itemView.findViewById(R.id.info_text);
                 commentsField = (LinearLayout) itemView.findViewById(R.id.comments_field);
+                commentCreateField = (RelativeLayout) itemView.findViewById(R.id.comment_create_field);
                 commentsLoadProgress = (ProgressBar) itemView.findViewById(R.id.load_progress);
                 commentField = (EditText) itemView.findViewById(R.id.comment_field);
                 sendButton = (Button) itemView.findViewById(R.id.comment_send_button);

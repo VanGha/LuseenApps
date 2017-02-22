@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity
                 timeStringArray.add(String.valueOf(i + ":" + "30"));
             }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             final View postAddDialog = View.inflate(MainActivity.this, R.layout.post_add_dialog, null);
             builder.setView(postAddDialog);
 
@@ -236,6 +236,13 @@ public class MainActivity extends AppCompatActivity
                     addPostToServer(LoggedUser.getSpeciality(), LoggedUser.getName(), LoggedUser.getSurName(),
                             addPostInformation.getText().toString(), loggedUserEmail);
                     updatePublications();
+
+                }
+            });
+
+            builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
                 }
             });
