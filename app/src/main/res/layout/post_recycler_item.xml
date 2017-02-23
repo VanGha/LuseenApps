@@ -54,11 +54,16 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.ActionMenuView
-                android:layout_width="30dp"
-                android:layout_height="40dp"
+            <TextView
+                android:id="@+id/item_options_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/dots_vertical"
+                android:clickable="true"
+                android:textAppearance="?android:textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/info_text"

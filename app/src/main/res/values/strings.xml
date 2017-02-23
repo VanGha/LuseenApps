@@ -99,6 +99,9 @@
     <string name="general">Главная</string>
     <string name="user">Пользователь</string>
     <string name="information">Информация</string>
+    <string name="action_notify_new_comment">Уведомлять при появлении нового комментария</string>
+    <string name="action_edit_post">Изменить</string>
+    <string name="action_delete_post">Удалить</string>
 
     <!-- Menu -->
 </resources>

@@ -4,12 +4,17 @@ package com.luseen.vanik.luseenapp.Recyclers.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -121,9 +126,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                                 holder.commentField.getText().toString(),
                                 luseenPosts.get(holder.getAdapterPosition()).getObjectId());
 
-//                        if (!luseenPosts.get(holder.getAdapterPosition()).hasComments())
-//                            holder.commentsField.removeViewAt(1);
-
                         holder.commentsField.addView(createCommentView(
                                 LoggedUser.getName(),
                                 LoggedUser.getSurName(),
@@ -138,6 +140,57 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     holder.commentsLoadProgress.setVisibility(View.GONE);
                 }
 
+            });
+
+            holder.itemOptionsMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    final PopupMenu popupMenu = new PopupMenu(context, holder.itemOptionsMenu);
+                    popupMenu.inflate(R.menu.recycler_item_options);
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+
+                            switch (item.getItemId()) {
+
+                                case R.id.action_item_notify_for_new_comment: {
+
+//                                    MenuItem currentItem = popupMenu.getMenu().getItem(0);
+//
+//                                    if (!currentItem.isChecked()) {
+//                                        currentItem.setChecked(true);
+//                                    } else {
+//                                        currentItem.setChecked(false);
+//                                    }
+
+                                    break;
+                                }
+
+                                case R.id.action_edit_post: {
+
+
+                                    break;
+                                }
+
+                                case R.id.action_delete_post: {
+
+                                    luseenPosts.remove(holder.getAdapterPosition());
+                                    notifyDataSetChanged();
+
+                                    // TODO: 23-Feb-17 MAKE A CODE TO REMOVE OBJECT(POST) IN THE PARSE!
+
+                                    break;
+                                }
+
+                            }
+
+                            return false;
+                        }
+                    });
+
+                    popupMenu.show();
+                }
             });
 
         } else {
@@ -254,7 +307,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         ProgressBar commentsLoadProgress;
 
         PorterShapeImageView posterImage, userImage;
-        TextView posterName, posterSurname, information;
+        TextView posterName, posterSurname, information, itemOptionsMenu;
         EditText commentField;
         Button sendButton;
 
@@ -272,6 +325,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 posterName = (TextView) itemView.findViewById(R.id.user_name);
                 posterSurname = (TextView) itemView.findViewById(R.id.user_surname);
                 information = (TextView) itemView.findViewById(R.id.info_text);
+                itemOptionsMenu = (TextView) itemView.findViewById(R.id.item_options_menu);
                 commentsField = (LinearLayout) itemView.findViewById(R.id.comments_field);
                 commentCreateField = (RelativeLayout) itemView.findViewById(R.id.comment_create_field);
                 commentsLoadProgress = (ProgressBar) itemView.findViewById(R.id.load_progress);
