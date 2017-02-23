@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Parse.LuseenNews;
+import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
 import com.luseen.vanik.luseenapp.Recyclers.Adapters.MainRecyclerAdapter;
@@ -102,7 +103,7 @@ public class MainFragment extends Fragment {
 
                         loadingProgress.setVisibility(View.GONE);
 
-                        recyclerAdapter = new MainRecyclerAdapter(getContext(), null, news);
+                        recyclerAdapter = new MainRecyclerAdapter(getContext(), null, news, null);
 
                         mainElementsRecycler.setAdapter(recyclerAdapter);
                         mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -121,18 +122,79 @@ public class MainFragment extends Fragment {
             ParseQuery<LuseenPosts> luseenPostParseQuery = ParseQuery.getQuery(LuseenPosts.class);
             luseenPostParseQuery.findInBackground(new FindCallback<LuseenPosts>() {
                 @Override
-                public void done(List<LuseenPosts> posts, ParseException e) {
+                public void done(final List<LuseenPosts> posts, ParseException e) {
 
                     if (e == null) {
 
                         loadingProgress.setVisibility(View.GONE);
 
-                        Collections.reverse(posts);
+                        ParseQuery<LuseenPostComment> luseenPostCommentQuery = ParseQuery.getQuery(LuseenPostComment.class);
+                        luseenPostCommentQuery.findInBackground(new FindCallback<LuseenPostComment>() {
+                            @Override
+                            public void done(List<LuseenPostComment> postsComments, ParseException e) {
 
-                        recyclerAdapter = new MainRecyclerAdapter(getContext(), posts, null);
-                        mainElementsRecycler.setAdapter(recyclerAdapter);
-                        mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
-                                LinearLayoutManager.VERTICAL, false));
+                                if (e == null) {
+
+                                    Collections.reverse(posts);
+
+                                    recyclerAdapter = new MainRecyclerAdapter(getContext(), posts, null, postsComments);
+                                    mainElementsRecycler.setAdapter(recyclerAdapter);
+                                    mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
+                                            LinearLayoutManager.VERTICAL, false));
+
+                                }
+
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+    }
+
+    private void loadMyPublications() {
+
+        final String posterEmail = getArguments().getString("posterEmail");
+
+        if (InternetConnection.hasInternetConnection(getContext())) {
+
+            ParseQuery<LuseenPosts> luseenPostParseQuery = ParseQuery.getQuery(LuseenPosts.class);
+            luseenPostParseQuery.findInBackground(new FindCallback<LuseenPosts>() {
+                @Override
+                public void done(final List<LuseenPosts> posts, ParseException e) {
+
+                    if (e == null) {
+
+                        loadingProgress.setVisibility(View.GONE);
+
+                        final List<LuseenPosts> currentUserPosts = new ArrayList<>();
+
+                        for (int i = 0; i < posts.size(); i++) {
+
+                            if (posts.get(i).getPosterEmail().equals(posterEmail))
+                                currentUserPosts.add(posts.get(i));
+
+                        }
+
+                        ParseQuery<LuseenPostComment> luseenPostCommentQuery = ParseQuery.getQuery(LuseenPostComment.class);
+                        luseenPostCommentQuery.findInBackground(new FindCallback<LuseenPostComment>() {
+                            @Override
+                            public void done(List<LuseenPostComment> postsComments, ParseException e) {
+
+                                if (e == null) {
+
+                                    Collections.reverse(currentUserPosts);
+
+                                    recyclerAdapter = new MainRecyclerAdapter(getContext(), currentUserPosts, null, postsComments);
+                                    mainElementsRecycler.setAdapter(recyclerAdapter);
+                                    mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
+                                            LinearLayoutManager.VERTICAL, false));
+
+                                }
+
+                            }
+                        });
 
                     }
                 }
@@ -148,43 +210,6 @@ public class MainFragment extends Fragment {
         recyclerAdapter.notifyDataSetChanged();
         mainElementsRecycler.scrollToPosition(0);
 
-    }
-
-    private void loadMyPublications() {
-
-        final String posterEmail = getArguments().getString("posterEmail");
-
-        if (InternetConnection.hasInternetConnection(getContext())) {
-
-            ParseQuery<LuseenPosts> luseenPostParseQuery = ParseQuery.getQuery(LuseenPosts.class);
-            luseenPostParseQuery.findInBackground(new FindCallback<LuseenPosts>() {
-                @Override
-                public void done(List<LuseenPosts> posts, ParseException e) {
-
-                    if (e == null) {
-
-                        loadingProgress.setVisibility(View.GONE);
-
-                        List<LuseenPosts> currentUserPosts = new ArrayList<>();
-
-                        for (int i = 0; i < posts.size(); i++) {
-
-                            if (posts.get(i).getPosterEmail().equals(posterEmail))
-                                currentUserPosts.add(posts.get(i));
-
-                        }
-
-                        Collections.reverse(currentUserPosts);
-
-                        recyclerAdapter = new MainRecyclerAdapter(getContext(), currentUserPosts, null);
-                        mainElementsRecycler.setAdapter(recyclerAdapter);
-                        mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
-                                LinearLayoutManager.VERTICAL, false));
-
-                    }
-                }
-            });
-        }
     }
 
 }

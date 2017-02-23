@@ -7,6 +7,16 @@ import com.parse.ParseObject;
 @ParseClassName("LuseenPostComment")
 public class LuseenPostComment extends ParseObject {
 
+    private boolean isLoaded;
+
+    public boolean isAdded() {
+        return isLoaded;
+    }
+
+    public void setAdded(boolean loaded) {
+        isLoaded = loaded;
+    }
+
     public String getSenderName() {
         return getString("SenderName");
     }

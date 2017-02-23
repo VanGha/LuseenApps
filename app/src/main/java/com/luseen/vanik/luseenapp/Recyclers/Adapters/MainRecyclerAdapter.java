@@ -25,7 +25,6 @@ import com.luseen.vanik.luseenapp.Parse.LuseenNews;
 import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -38,12 +37,15 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     private Context context;
 
     private List<LuseenPosts> luseenPosts;
+    private List<LuseenPostComment> luseenPostComments;
     private List<LuseenNews> luseenNews;
 
-    public MainRecyclerAdapter(Context context, List<LuseenPosts> luseenPosts, List<LuseenNews> luseenNews) {
+    public MainRecyclerAdapter(Context context, List<LuseenPosts> luseenPosts, List<LuseenNews> luseenNews,
+                               List<LuseenPostComment> luseenPostComments) {
         this.context = context;
         this.luseenPosts = luseenPosts;
         this.luseenNews = luseenNews;
+        this.luseenPostComments = luseenPostComments;
     }
 
     @Override
@@ -74,36 +76,28 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             if (luseenPosts.get(holder.getAdapterPosition()).hasComments()) {
 
-                if (InternetConnection.hasInternetConnection(context)) {
+                for (int i = 0; i < luseenPostComments.size(); i++) {
 
-                    ParseQuery<LuseenPostComment> luseenPostCommentQuery = ParseQuery.getQuery(LuseenPostComment.class);
-                    luseenPostCommentQuery.findInBackground(new FindCallback<LuseenPostComment>() {
-                        @Override
-                        public void done(List<LuseenPostComment> postsComments, ParseException e) {
+                    if (luseenPostComments.get(i).getPostId().equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId())) {
 
-                            if (e == null) {
+                        if (!luseenPostComments.get(i).isAdded()) {
 
-                                for (int i = 0; i < postsComments.size(); i++) {
-
-                                    if (postsComments.get(i).getPostId().equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId())) {
-
-                                        holder.commentsField.addView(createCommentView(
-                                                postsComments.get(i).getSenderName(),
-                                                postsComments.get(i).getSenderSurname(),
-                                                postsComments.get(i).getComment()));
-
-                                    }
-
-                                }
-                            }
+                            holder.commentsField.addView(createCommentView(
+                                    luseenPostComments.get(i).getSenderName(),
+                                    luseenPostComments.get(i).getSenderSurname(),
+                                    luseenPostComments.get(i).getComment()));
+                            luseenPostComments.get(i).setAdded(true);
 
                         }
-                    });
+
+                    }
+
                 }
 
             } else {
 
-                holder.commentsField.addView(createEmptyCommentView());
+                if (holder.commentsField.getChildCount() == 1)
+                    holder.commentsField.addView(createEmptyCommentView());
 
             }
 
@@ -123,12 +117,12 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     if (!holder.commentField.getText().toString().isEmpty() &&
                             !holder.commentField.getText().toString().trim().isEmpty()) {
 
-                        if (!luseenPosts.get(holder.getAdapterPosition()).hasComments())
-                            holder.commentsField.removeViewAt(1);
-
                         addCommentToServer(LoggedUser.getName(), LoggedUser.getSurName(),
                                 holder.commentField.getText().toString(),
                                 luseenPosts.get(holder.getAdapterPosition()).getObjectId());
+
+//                        if (!luseenPosts.get(holder.getAdapterPosition()).hasComments())
+//                            holder.commentsField.removeViewAt(1);
 
                         holder.commentsField.addView(createCommentView(
                                 LoggedUser.getName(),

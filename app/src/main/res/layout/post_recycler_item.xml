@@ -27,7 +27,8 @@
                 app:siSquare="true" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/user_data"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/user_photo"
                 android:layout_toRightOf="@id/user_photo"
@@ -52,6 +53,12 @@
                     android:textSize="20sp" />
 
             </LinearLayout>
+
+            <android.support.v7.widget.ActionMenuView
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"/>
 
             <TextView
                 android:id="@+id/info_text"
