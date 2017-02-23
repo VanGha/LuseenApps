@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import android.widget.ProgressBar;
 
+import com.luseen.vanik.luseenapp.Classes.LoggedUser;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Parse.LuseenNews;
@@ -135,9 +136,19 @@ public class MainFragment extends Fragment {
 
                                 if (e == null) {
 
-                                    Collections.reverse(posts);
+                                    List<LuseenPosts> specPosts = new ArrayList<>();
 
-                                    recyclerAdapter = new MainRecyclerAdapter(getContext(), posts, null, postsComments);
+                                    for (int i = 0; i < posts.size(); i++) {
+
+                                        if (posts.get(i).getPostSpeciality().equals(LoggedUser.getSpeciality())) {
+                                            specPosts.add(posts.get(i));
+                                        }
+
+                                    }
+
+                                    Collections.reverse(specPosts);
+
+                                    recyclerAdapter = new MainRecyclerAdapter(getContext(), specPosts, null, postsComments);
                                     mainElementsRecycler.setAdapter(recyclerAdapter);
                                     mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                                             LinearLayoutManager.VERTICAL, false));
