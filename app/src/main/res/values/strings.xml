@@ -104,4 +104,12 @@
     <string name="action_delete_post">Удалить</string>
 
     <!-- Menu -->
+
+    <!-- Notifications -->
+
+    <string name="new_comment_title">Новый комментарий</string>
+    <string name="has_a_new_comment">Появился новый комментарий к посту</string>
+
+    <!-- Notifications -->
+
 </resources>
