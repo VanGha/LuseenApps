@@ -387,6 +387,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         ParseQuery<LuseenPostComment> luseenPostCommentParseQuery = ParseQuery.getQuery(LuseenPostComment.class);
         luseenPostCommentParseQuery.findInBackground(new FindCallback<LuseenPostComment>() {
+
             @Override
             public void done(List<LuseenPostComment> comments, ParseException e) {
 
