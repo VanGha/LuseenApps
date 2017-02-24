@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
 
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
@@ -22,9 +23,6 @@ import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
 import com.luseen.vanik.luseenapp.Recyclers.Adapters.MainRecyclerAdapter;
-import com.mikepenz.itemanimators.DefaultAnimator;
-import com.mikepenz.itemanimators.ScaleUpAnimator;
-import com.mikepenz.itemanimators.SlideDownAlphaAnimator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -32,6 +30,10 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.LandingAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class MainFragment extends Fragment {
 
@@ -69,7 +71,7 @@ public class MainFragment extends Fragment {
         context = getContext();
 
         mainElementsRecycler = (RecyclerView) view.findViewById(R.id.main_elements_recycler);
-        mainElementsRecycler.setItemAnimator(new DefaultItemAnimator());
+        mainElementsRecycler.setItemAnimator(new SlideInLeftAnimator());
         loadingProgress = (ProgressBar) view.findViewById(R.id.load_progress);
         loadingProgress.setVisibility(View.VISIBLE);
 
@@ -106,7 +108,7 @@ public class MainFragment extends Fragment {
 
                         recyclerAdapter = new MainRecyclerAdapter(getContext(), null, news, null);
 
-                        mainElementsRecycler.setAdapter(recyclerAdapter);
+                        mainElementsRecycler.setAdapter(new AlphaInAnimationAdapter(recyclerAdapter));
                         mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                                 LinearLayoutManager.VERTICAL, false));
 
@@ -149,7 +151,7 @@ public class MainFragment extends Fragment {
                                     Collections.reverse(specPosts);
 
                                     recyclerAdapter = new MainRecyclerAdapter(getContext(), specPosts, null, postsComments);
-                                    mainElementsRecycler.setAdapter(recyclerAdapter);
+                                    mainElementsRecycler.setAdapter(new AlphaInAnimationAdapter(recyclerAdapter));
                                     mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                                             LinearLayoutManager.VERTICAL, false));
 
@@ -198,7 +200,7 @@ public class MainFragment extends Fragment {
                                     Collections.reverse(currentUserPosts);
 
                                     recyclerAdapter = new MainRecyclerAdapter(getContext(), currentUserPosts, null, postsComments);
-                                    mainElementsRecycler.setAdapter(recyclerAdapter);
+                                    mainElementsRecycler.setAdapter(new AlphaInAnimationAdapter(recyclerAdapter));
                                     mainElementsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                                             LinearLayoutManager.VERTICAL, false));
 
@@ -213,12 +215,12 @@ public class MainFragment extends Fragment {
         }
     }
 
-    public static void updateRecycler(List<LuseenPosts> posts) {
+    public static void updatePosts(List<LuseenPosts> posts) {
 
         Collections.reverse(posts);
 
         recyclerAdapter.setLuseenPosts(posts);
-        recyclerAdapter.notifyDataSetChanged();
+        recyclerAdapter.notifyItemInserted(0);
         mainElementsRecycler.scrollToPosition(0);
 
     }

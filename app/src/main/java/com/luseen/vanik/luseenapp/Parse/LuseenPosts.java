@@ -31,5 +31,9 @@ public class LuseenPosts extends ParseObject {
         return getBoolean("HasComments");
     }
 
+    public boolean isExampleUsedWhenCreated() {
+        return getBoolean("IsExampleUsedWhenCreated");
+    }
+
 }
 

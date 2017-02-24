@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -233,7 +232,7 @@ public class MainActivity extends AppCompatActivity
                 public void onClick(DialogInterface dialogInterface, int i) {
 
                     addPostToServer(LoggedUser.getSpeciality(), LoggedUser.getName(), LoggedUser.getSurName(),
-                            addPostInformation.getText().toString(), loggedUserEmail);
+                            addPostInformation.getText().toString(), loggedUserEmail, useExamples.isChecked());
 
                     if (InternetConnection.hasInternetConnection(MainActivity.this)) {
 
@@ -248,7 +247,7 @@ public class MainActivity extends AppCompatActivity
                                     public void done(List<LuseenPosts> posts, ParseException e) {
 
                                         if (e == null) {
-                                            MainFragment.updateRecycler(posts);
+                                            MainFragment.updatePosts(posts);
                                         }
 
                                     }
@@ -302,9 +301,12 @@ public class MainActivity extends AppCompatActivity
                     dateSpinner.setSelection(0);
                     timeSpinner.setSelection(0);
 
-                    if (useExamples.isChecked())
+                    if (useExamples.isChecked()) {
                         addPostInformation.setText("Example!"); // TODO: 15-Feb-17 MAKE A EXAMPLE OF POST
-                    else addPostInformation.setText("");
+
+                    } else {
+                        addPostInformation.setText("");
+                    }
                 }
             });
 
@@ -315,7 +317,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void addPostToServer(String postSpeciality, String posterName, String posterSurname,
-                                 String information, String posterEmail) {
+                                 String information, String posterEmail, boolean isExampleUsed) {
 
         if (InternetConnection.hasInternetConnection(MainActivity.this)) {
 
@@ -326,6 +328,7 @@ public class MainActivity extends AppCompatActivity
             post.put("PosterInformation", information);
             post.put("posterEmail", posterEmail);
             post.put("HasComments", false);
+            post.put("IsExampleUsedWhenCreated", isExampleUsed);
 
             post.saveInBackground();
 

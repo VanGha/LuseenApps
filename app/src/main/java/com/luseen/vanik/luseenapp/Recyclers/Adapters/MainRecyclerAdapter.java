@@ -1,7 +1,9 @@
 package com.luseen.vanik.luseenapp.Recyclers.Adapters;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
@@ -13,29 +15,41 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
+import com.luseen.vanik.luseenapp.Activities.Fragments.MainFragments.MainFragment;
+import com.luseen.vanik.luseenapp.Activities.MainActivity;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
 import com.luseen.vanik.luseenapp.Parse.LuseenNews;
 import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder> {
 
@@ -142,12 +156,20 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             });
 
+            final PopupMenu popupMenu = new PopupMenu(context, holder.itemOptionsMenu);
+            popupMenu.inflate(R.menu.recycler_item_options);
+            final MenuItem notificationChecker = popupMenu.getMenu().getItem(0);
+
+            if (notificationChecker.isChecked()) {
+                notificationChecker.setChecked(true);
+            } else {
+                notificationChecker.setChecked(false);
+            }
+
             holder.itemOptionsMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    final PopupMenu popupMenu = new PopupMenu(context, holder.itemOptionsMenu);
-                    popupMenu.inflate(R.menu.recycler_item_options);
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
@@ -156,29 +178,153 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                 case R.id.action_item_notify_for_new_comment: {
 
-//                                    MenuItem currentItem = popupMenu.getMenu().getItem(0);
-//
-//                                    if (!currentItem.isChecked()) {
-//                                        currentItem.setChecked(true);
-//                                    } else {
-//                                        currentItem.setChecked(false);
-//                                    }
+                                    if (!notificationChecker.isChecked()) {
+                                        notificationChecker.setChecked(true);
+
+                                        // TODO: 24-Feb-17 RUN SERVICE WITH NOTIFICATIONS
+
+                                    } else {
+                                        notificationChecker.setChecked(false);
+                                    }
 
                                     break;
                                 }
 
                                 case R.id.action_edit_post: {
 
+                                    ArrayList<String> dateStringArray = new ArrayList<>();
+                                    ArrayList<String> timeStringArray = new ArrayList<>();
+
+                                    dateStringArray.add("");
+                                    timeStringArray.add("");
+
+                                    dateStringArray.add("Сегодня");
+                                    dateStringArray.add("Завтра");
+                                    dateStringArray.add("Послезавтра");
+
+                                    for (int i = 0; i <= 23; i++) {
+                                        timeStringArray.add(String.valueOf(i + ":" + "00"));
+                                        timeStringArray.add(String.valueOf(i + ":" + "30"));
+                                    }
+
+                                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                    final View postAddDialog = View.inflate(context, R.layout.post_add_dialog, null);
+                                    builder.setView(postAddDialog);
+
+                                    final EditText addPostInformation = (EditText) postAddDialog.findViewById(R.id.add_post_information);
+                                    final Spinner dateSpinner = (Spinner) postAddDialog.findViewById(R.id.date_spinner);
+                                    final Spinner timeSpinner = (Spinner) postAddDialog.findViewById(R.id.time_spinner);
+                                    final Switch useExamples = (Switch) postAddDialog.findViewById(R.id.use_example_switch);
+
+                                    ArrayAdapter<String> stringArrayAdapterDate = new ArrayAdapter<>(context,
+                                            android.R.layout.simple_spinner_item, dateStringArray);
+                                    stringArrayAdapterDate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    dateSpinner.setAdapter(stringArrayAdapterDate);
+
+                                    ArrayAdapter<String> stringArrayAdapterTime = new ArrayAdapter<>(context,
+                                            android.R.layout.simple_spinner_item, timeStringArray);
+                                    stringArrayAdapterTime.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    timeSpinner.setAdapter(stringArrayAdapterTime);
+
+                                    addPostInformation.setText(luseenPosts.get(holder.getAdapterPosition()).getInformation());
+                                    useExamples.setChecked(luseenPosts.get(holder.getAdapterPosition()).isExampleUsedWhenCreated());
+
+                                    builder.setPositiveButton(context.getResources().getString(R.string.action_edit_post), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            if (InternetConnection.hasInternetConnection(context)) {
+
+                                                ParseQuery<LuseenPosts> luseenPostsParseQuery = ParseQuery.getQuery(LuseenPosts.class);
+                                                luseenPostsParseQuery.getInBackground(luseenPosts.get(holder.getAdapterPosition()).getObjectId(),
+                                                        new GetCallback<LuseenPosts>() {
+                                                            @Override
+                                                            public void done(LuseenPosts post, ParseException e) {
+
+                                                                post.put("PosterInformation", addPostInformation.getText().toString());
+
+                                                                post.saveInBackground();
+                                                                notifyItemChanged(holder.getAdapterPosition());
+
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    });
+
+                                    builder.setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+
+                                    builder.create().show();
+
+                                    dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                                            addPostInformation.setText(String.valueOf(addPostInformation.getText().toString()) +
+                                                    " " + adapterView.getSelectedItem().toString());
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                        }
+                                    });
+
+                                    timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                                            addPostInformation.setText(String.valueOf(addPostInformation.getText().toString()) +
+                                                    " " + adapterView.getSelectedItem().toString());
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                        }
+                                    });
+
+                                    useExamples.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                        @Override
+                                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                                            dateSpinner.setSelection(0);
+                                            timeSpinner.setSelection(0);
+
+                                            if (useExamples.isChecked()) {
+                                                addPostInformation.setText("Example!"); // TODO: 15-Feb-17 MAKE A EXAMPLE OF POST
+                                            } else {
+                                                addPostInformation.setText("");
+                                            }
+                                        }
+                                    });
 
                                     break;
                                 }
 
                                 case R.id.action_delete_post: {
 
-                                    luseenPosts.remove(holder.getAdapterPosition());
-                                    notifyDataSetChanged();
+                                    ParseQuery<LuseenPosts> luseenPostsParseQuery = ParseQuery.getQuery(LuseenPosts.class);
+                                    luseenPostsParseQuery.getInBackground(luseenPosts.get(holder.getAdapterPosition()).getObjectId(),
+                                            new GetCallback<LuseenPosts>() {
+                                                @Override
+                                                public void done(LuseenPosts post, ParseException e) {
 
-                                    // TODO: 23-Feb-17 MAKE A CODE TO REMOVE OBJECT(POST) IN THE PARSE!
+                                                    try {
+                                                        post.delete();
+
+                                                        luseenPosts.remove(holder.getAdapterPosition());
+                                                        notifyItemRemoved(holder.getAdapterPosition());
+
+                                                    } catch (ParseException e1) {
+                                                        Toast.makeText(context, "No!", Toast.LENGTH_SHORT).show();
+                                                    }
+
+                                                }
+                                            });
 
                                     break;
                                 }
@@ -190,6 +336,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                     });
 
                     popupMenu.show();
+
                 }
             });
 
