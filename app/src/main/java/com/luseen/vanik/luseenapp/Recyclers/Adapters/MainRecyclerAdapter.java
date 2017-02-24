@@ -11,15 +11,12 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,13 +25,10 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
-import com.luseen.vanik.luseenapp.Activities.Fragments.MainFragments.MainFragment;
-import com.luseen.vanik.luseenapp.Activities.MainActivity;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
 import com.luseen.vanik.luseenapp.Parse.LuseenNews;
@@ -50,8 +44,6 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder> {
 
@@ -95,30 +87,21 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             holder.commentsLoadProgress.setVisibility(View.VISIBLE);
 
-            if (luseenPosts.get(holder.getAdapterPosition()).hasComments()) {
+            for (int i = 0; i < luseenPostComments.size(); i++) {
 
-                for (int i = 0; i < luseenPostComments.size(); i++) {
+                if (luseenPostComments.get(i).getPostId().equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId())) {
 
-                    if (luseenPostComments.get(i).getPostId().equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId())) {
+                    if (!luseenPostComments.get(i).isAdded()) {
 
-                        if (!luseenPostComments.get(i).isAdded()) {
-
-                            holder.commentsField.addView(createCommentView(
-                                    luseenPostComments.get(i).getSenderName(),
-                                    luseenPostComments.get(i).getSenderSurname(),
-                                    luseenPostComments.get(i).getComment()));
-                            luseenPostComments.get(i).setAdded(true);
-
-                        }
+                        holder.commentsField.addView(createCommentView(
+                                luseenPostComments.get(i).getSenderName(),
+                                luseenPostComments.get(i).getSenderSurname(),
+                                luseenPostComments.get(i).getComment()));
+                        luseenPostComments.get(i).setAdded(true);
 
                     }
 
                 }
-
-            } else {
-
-                if (holder.commentsField.getChildCount() == 1)
-                    holder.commentsField.addView(createEmptyCommentView());
 
             }
 
@@ -141,6 +124,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                         addCommentToServer(LoggedUser.getName(), LoggedUser.getSurName(),
                                 holder.commentField.getText().toString(),
                                 luseenPosts.get(holder.getAdapterPosition()).getObjectId());
+
+                        if (holder.noComment != null) {
+                            holder.commentsField.removeView(holder.noComment);
+                        }
 
                         holder.commentsField.addView(createCommentView(
                                 LoggedUser.getName(),
@@ -320,24 +307,61 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                 case R.id.action_delete_post: {
 
-                                    ParseQuery<LuseenPosts> luseenPostsParseQuery = ParseQuery.getQuery(LuseenPosts.class);
-                                    luseenPostsParseQuery.getInBackground(luseenPosts.get(holder.getAdapterPosition()).getObjectId(),
-                                            new GetCallback<LuseenPosts>() {
-                                                @Override
-                                                public void done(LuseenPosts post, ParseException e) {
+                                    if (InternetConnection.hasInternetConnection(context)) {
 
-                                                    try {
-                                                        post.delete();
+                                        ParseQuery<LuseenPostComment> luseenPostCommentParseQuery =
+                                                ParseQuery.getQuery(LuseenPostComment.class);
+                                        luseenPostCommentParseQuery.findInBackground(new FindCallback<LuseenPostComment>() {
+                                            @Override
+                                            public void done(List<LuseenPostComment> comments, ParseException e) {
 
-                                                        luseenPosts.remove(holder.getAdapterPosition());
-                                                        notifyItemRemoved(holder.getAdapterPosition());
+                                                if (e == null) {
 
-                                                    } catch (ParseException e1) {
-                                                        Toast.makeText(context, "No!", Toast.LENGTH_SHORT).show();
+                                                    for (int i = 0; i < comments.size(); i++) {
+
+                                                        if (luseenPosts.get(holder.getAdapterPosition()).getObjectId().
+                                                                equals(comments.get(i).getPostId())) {
+
+                                                            try {
+                                                                comments.get(i).delete();
+                                                                updatePostsComments();
+                                                            } catch (ParseException e1) {
+                                                                e1.printStackTrace();
+                                                            }
+
+                                                        }
+
                                                     }
 
                                                 }
-                                            });
+
+                                            }
+                                        });
+
+                                        ParseQuery<LuseenPosts> luseenPostsParseQuery = ParseQuery.getQuery(LuseenPosts.class);
+                                        luseenPostsParseQuery.getInBackground(luseenPosts.get(holder.getAdapterPosition()).getObjectId(),
+                                                new GetCallback<LuseenPosts>() {
+                                                    @Override
+                                                    public void done(LuseenPosts post, ParseException e) {
+
+                                                        if (e == null) {
+
+                                                            try {
+                                                                post.delete();
+
+                                                                luseenPosts.remove(holder.getAdapterPosition());
+                                                                notifyItemRemoved(holder.getAdapterPosition());
+
+                                                            } catch (ParseException e1) {
+                                                                e1.printStackTrace();
+                                                            }
+
+                                                        }
+
+                                                    }
+                                                });
+
+                                    }
 
                                     break;
                                 }
@@ -356,6 +380,24 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         } else {
             holder.newsInformation.setText(luseenNews.get(holder.getAdapterPosition()).getInformation());
         }
+
+    }
+
+    private void updatePostsComments() {
+
+        ParseQuery<LuseenPostComment> luseenPostCommentParseQuery = ParseQuery.getQuery(LuseenPostComment.class);
+        luseenPostCommentParseQuery.findInBackground(new FindCallback<LuseenPostComment>() {
+            @Override
+            public void done(List<LuseenPostComment> comments, ParseException e) {
+
+                if (e == null) {
+
+                    luseenPostComments = comments;
+
+                }
+
+            }
+        });
 
     }
 
@@ -398,20 +440,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         commentBody.addView(commentText);
 
         return commentBody;
-
-    }
-
-    private View createEmptyCommentView() {
-
-        LinearLayout.LayoutParams doubleMatch = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-
-        TextView emptyComment = new TextView(context);
-        emptyComment.setLayoutParams(doubleMatch);
-        emptyComment.setGravity(Gravity.CENTER);
-        emptyComment.setText(R.string.no_comments);
-
-        return emptyComment;
 
     }
 
@@ -467,7 +495,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         ProgressBar commentsLoadProgress;
 
         PorterShapeImageView posterImage, userImage;
-        TextView posterName, posterSurname, information, itemOptionsMenu;
+        TextView posterName, posterSurname, information, itemOptionsMenu, noComment;
         EditText commentField;
         Button sendButton;
 
@@ -486,6 +514,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 posterSurname = (TextView) itemView.findViewById(R.id.user_surname);
                 information = (TextView) itemView.findViewById(R.id.info_text);
                 itemOptionsMenu = (TextView) itemView.findViewById(R.id.item_options_menu);
+                noComment = (TextView) itemView.findViewById(R.id.no_comment);
                 commentsField = (LinearLayout) itemView.findViewById(R.id.comments_field);
                 commentCreateField = (RelativeLayout) itemView.findViewById(R.id.comment_create_field);
                 commentsLoadProgress = (ProgressBar) itemView.findViewById(R.id.load_progress);

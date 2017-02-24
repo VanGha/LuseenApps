@@ -27,10 +27,6 @@ public class LuseenPosts extends ParseObject {
         return getString("PostSpeciality");
     }
 
-    public boolean hasComments() {
-        return getBoolean("HasComments");
-    }
-
     public boolean isExampleUsedWhenCreated() {
         return getBoolean("IsExampleUsedWhenCreated");
     }

@@ -339,7 +339,6 @@ public class MainActivity extends AppCompatActivity
             post.put("PosterSurname", posterSurname);
             post.put("PosterInformation", information);
             post.put("posterEmail", posterEmail);
-            post.put("HasComments", false);
             post.put("IsExampleUsedWhenCreated", isExampleUsed);
 
             post.saveInBackground();
