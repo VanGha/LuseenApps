@@ -4,6 +4,7 @@ package com.luseen.vanik.luseenapp.Recyclers.Adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
@@ -40,6 +41,7 @@ import com.luseen.vanik.luseenapp.Parse.LuseenNews;
 import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
+import com.luseen.vanik.luseenapp.Services.NotificationService;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -178,13 +180,17 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                 case R.id.action_item_notify_for_new_comment: {
 
+                                    Intent runNotificationsService = new Intent(context, NotificationService.class);
+
                                     if (!notificationChecker.isChecked()) {
                                         notificationChecker.setChecked(true);
 
-                                        // TODO: 24-Feb-17 RUN SERVICE WITH NOTIFICATIONS
+                                        runNotificationsService = new Intent(context, NotificationService.class);
+                                        context.startService(runNotificationsService);
 
                                     } else {
                                         notificationChecker.setChecked(false);
+                                        context.stopService(runNotificationsService);
                                     }
 
                                     break;

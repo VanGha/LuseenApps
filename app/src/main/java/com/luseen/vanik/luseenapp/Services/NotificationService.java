@@ -13,6 +13,9 @@ import android.support.annotation.RequiresApi;
 
 import com.luseen.vanik.luseenapp.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class NotificationService extends Service {
 
     @Override
@@ -24,19 +27,27 @@ public class NotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Context context = getApplicationContext();
+        final Context context = getApplicationContext();
 
-        Notification.Builder notificationBuilder = new Notification.Builder(getApplicationContext());
-        notificationBuilder.setCategory(Notification.CATEGORY_EVENT);
-        notificationBuilder.setColor(context.getResources().getColor(R.color.colorAccent));
-        notificationBuilder.setSmallIcon(R.drawable.library_books);
-        notificationBuilder.setContentTitle(context.getResources().getString(R.string.new_comment_title));
-        notificationBuilder.setContentText(context.getResources().getString(R.string.has_a_new_comment));
-        notificationBuilder.setDefaults(Notification.DEFAULT_ALL);
-        notificationBuilder.setAutoCancel(true);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
+                Notification.Builder notificationBuilder = new Notification.Builder(context);
+                notificationBuilder.setCategory(Notification.CATEGORY_EVENT);
+                notificationBuilder.setColor(context.getResources().getColor(R.color.colorAccent));
+                notificationBuilder.setSmallIcon(R.drawable.library_books);
+                notificationBuilder.setContentTitle(context.getResources().getString(R.string.new_comment_title));
+                notificationBuilder.setContentText(context.getResources().getString(R.string.has_a_new_comment));
+                notificationBuilder.setDefaults(Notification.DEFAULT_ALL);
+                notificationBuilder.setAutoCancel(true);
+
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(0, notificationBuilder.build());
+
+            }
+        }, 2000);
 
         return super.onStartCommand(intent, flags, startId);
     }
