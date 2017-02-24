@@ -42,6 +42,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -247,7 +248,18 @@ public class MainActivity extends AppCompatActivity
                                     public void done(List<LuseenPosts> posts, ParseException e) {
 
                                         if (e == null) {
-                                            MainFragment.updatePosts(posts);
+
+                                            List<LuseenPosts> specPosts = new ArrayList<>();
+
+                                            for (int i = 0; i < posts.size(); i++) {
+
+                                                if (posts.get(i).getPostSpeciality().equals(LoggedUser.getSpeciality())) {
+                                                    specPosts.add(posts.get(i));
+                                                }
+
+                                            }
+
+                                            MainFragment.updatePosts(specPosts);
                                         }
 
                                     }

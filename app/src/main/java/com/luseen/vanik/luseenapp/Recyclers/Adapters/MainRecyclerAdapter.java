@@ -160,12 +160,19 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             final PopupMenu popupMenu = new PopupMenu(context, holder.itemOptionsMenu);
             popupMenu.inflate(R.menu.recycler_item_options);
-            final MenuItem notificationChecker = popupMenu.getMenu().getItem(0);
+            final MenuItem itemNotificationChecker = popupMenu.getMenu().getItem(0);
+            final MenuItem itemPostEdit = popupMenu.getMenu().getItem(1);
+            final MenuItem itemPostDelete = popupMenu.getMenu().getItem(2);
 
-            if (notificationChecker.isChecked()) {
-                notificationChecker.setChecked(true);
+            if (!LoggedUser.getEmail().equals(luseenPosts.get(holder.getAdapterPosition()).getPosterEmail())) {
+                itemPostEdit.setEnabled(false);
+                itemPostDelete.setEnabled(false);
+            }
+
+            if (itemNotificationChecker.isChecked()) {
+                itemNotificationChecker.setChecked(true);
             } else {
-                notificationChecker.setChecked(false);
+                itemNotificationChecker.setChecked(false);
             }
 
             holder.itemOptionsMenu.setOnClickListener(new View.OnClickListener() {
@@ -182,14 +189,14 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                     Intent runNotificationsService = new Intent(context, NotificationService.class);
 
-                                    if (!notificationChecker.isChecked()) {
-                                        notificationChecker.setChecked(true);
+                                    if (!itemNotificationChecker.isChecked()) {
+                                        itemNotificationChecker.setChecked(true);
 
                                         runNotificationsService = new Intent(context, NotificationService.class);
                                         context.startService(runNotificationsService);
 
                                     } else {
-                                        notificationChecker.setChecked(false);
+                                        itemNotificationChecker.setChecked(false);
                                         context.stopService(runNotificationsService);
                                     }
 
