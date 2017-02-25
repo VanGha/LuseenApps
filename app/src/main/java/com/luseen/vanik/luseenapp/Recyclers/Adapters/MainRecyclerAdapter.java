@@ -180,6 +180,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                                         itemNotificationChecker.setChecked(true);
 
                                         runNotificationsService = new Intent(context, NotificationService.class);
+                                        NotificationService.setPostComments(luseenPostComments);
+                                        NotificationService.setPostId(luseenPosts.get(holder.getAdapterPosition()).getObjectId());
                                         context.startService(runNotificationsService);
 
                                     } else {
@@ -244,7 +246,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                                                                 post.put("PosterInformation", addPostInformation.getText().toString());
 
                                                                 post.saveInBackground();
-                                                                notifyItemChanged(holder.getAdapterPosition());
+
+                                                                holder.information.setText(addPostInformation.getText().toString());
+                                                                YoYo.with(Techniques.Landing).duration(1000).playOn(holder.information);
 
                                                             }
                                                         });
