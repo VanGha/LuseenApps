@@ -150,9 +150,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_margin="5dp"
-                        android:background="@drawable/comment_send_button"
-                        android:drawableLeft="@drawable/ic_menu_send"
-                        android:drawableStart="@drawable/ic_menu_send" />
+                        android:background="@drawable/send_button" />
 
                     <EditText
                         android:id="@+id/comment_field"

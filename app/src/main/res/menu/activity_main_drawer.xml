@@ -27,7 +27,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/menu_my_posts"
-                    android:icon="@drawable/file_document_box"
+                    android:icon="@drawable/library_books"
                     android:title="@string/menu_my_publications" />
 
             </group>
