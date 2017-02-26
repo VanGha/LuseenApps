@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.pdf.PdfRenderer;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +33,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
+import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
 import com.luseen.vanik.luseenapp.Parse.LuseenNews;
 import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
@@ -156,11 +159,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 itemPostDelete.setEnabled(false);
             }
 
-            if (itemNotificationChecker.isChecked()) {
-                itemNotificationChecker.setChecked(true);
-            } else {
-                itemNotificationChecker.setChecked(false);
-            }
+            SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.NOTIFICATION_CHECKER_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+            final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            itemNotificationChecker.setChecked(sharedPreferences.getBoolean(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED, false));
 
             holder.itemOptionsMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -178,16 +180,18 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                     if (!itemNotificationChecker.isChecked()) {
                                         itemNotificationChecker.setChecked(true);
+                                        editor.putBoolean(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED, true);
 
                                         runNotificationsService = new Intent(context, NotificationService.class);
-                                        NotificationService.setPostComments(luseenPostComments);
-                                        NotificationService.setPostId(luseenPosts.get(holder.getAdapterPosition()).getObjectId());
                                         context.startService(runNotificationsService);
 
                                     } else {
                                         itemNotificationChecker.setChecked(false);
+                                        editor.putBoolean(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED, false);
                                         context.stopService(runNotificationsService);
                                     }
+
+                                    editor.apply();
 
                                     break;
                                 }

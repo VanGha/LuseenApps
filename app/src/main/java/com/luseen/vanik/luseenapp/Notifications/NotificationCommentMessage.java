@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 import com.luseen.vanik.luseenapp.Activities.MainActivity;
 import com.luseen.vanik.luseenapp.R;
@@ -20,7 +19,7 @@ public class NotificationCommentMessage extends BroadcastReceiver {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
         notificationBuilder.setCategory(Notification.CATEGORY_EVENT);
         notificationBuilder.setColor(context.getResources().getColor(R.color.colorAccent));
-        notificationBuilder.setSmallIcon(R.drawable.library_books);
+        notificationBuilder.setSmallIcon(R.drawable.luseen_icon);
         notificationBuilder.setContentTitle(context.getResources().getString(R.string.new_comment_title));
         notificationBuilder.setContentText(context.getResources().getString(R.string.has_a_new_comment));
         notificationBuilder.setDefaults(Notification.DEFAULT_ALL);

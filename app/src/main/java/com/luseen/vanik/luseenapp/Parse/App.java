@@ -2,8 +2,10 @@ package com.luseen.vanik.luseenapp.Parse;
 
 import android.app.Application;
 
+import com.luseen.vanik.luseenapp.Activities.MainActivity;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.PushService;
 
 
 public class App extends Application {

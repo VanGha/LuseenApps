@@ -28,12 +28,19 @@ public interface AppConstants {
     String LOGGED_USER_EMAIL = "logged_user";
     String SETTINGS_ACTIVITY_KEY = "settings_key";
 
+    String POST_IDS = "post_ids";
+    String POST_SIZE = "post_sizes";
+    String POST_POST_COMMENTS_SIZE = "post_comment_size";
+
     // Intent
 
     // Shared Preferences
 
     String LOGGED_USER_SHARED_PREFERENCE = "LoggedUser";
-    String IS_USER_LOGGED = "is_logged";
+
+    String NOTIFICATION_CHECKER_SHARED_PREFERENCE = "NotChecker";
+    String NOTIFICATION_POST_COMMENTS_CHECKED = "is_checked_nots";
+
 
     // Shared Preferences
 

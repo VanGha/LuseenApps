@@ -4,6 +4,8 @@ package com.luseen.vanik.luseenapp.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.util.List;
+
 @ParseClassName("LuseenPostComment")
 public class LuseenPostComment extends ParseObject {
 

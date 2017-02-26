@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme">
 
         <service android:name=".Services.NotificationService"/>
+        <service android:name=".Services.CheckPostsAndCommentsUpdatesService"/>
         <receiver android:name=".Notifications.NotificationCommentMessage"/>
         <receiver android:name=".Notifications.NotificationPostMessage"/>
 
