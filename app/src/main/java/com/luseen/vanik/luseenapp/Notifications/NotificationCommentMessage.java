@@ -24,7 +24,7 @@ public class NotificationCommentMessage extends BroadcastReceiver {
         notificationBuilder.setContentText(context.getResources().getString(R.string.has_a_new_comment));
         notificationBuilder.setDefaults(Notification.DEFAULT_ALL);
         notificationBuilder.setContentIntent(PendingIntent.getActivity(context, 0,
-                new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT));
+                new Intent(context, MainActivity.class), PendingIntent.FLAG_ONE_SHOT));
         notificationBuilder.setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

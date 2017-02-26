@@ -100,6 +100,8 @@
     <string name="user">Пользователь</string>
     <string name="information">Информация</string>
     <string name="action_notify_new_comment">Уведомлять при появлении нового комментария</string>
+    <string name="action_notify_new_post">Уведомлять при появлении новой публикации</string>
+    <string name="action_notify_news">Уведомлять при появлении новостей</string>
     <string name="action_edit_post">Изменить</string>
     <string name="action_delete_post">Удалить</string>
 
