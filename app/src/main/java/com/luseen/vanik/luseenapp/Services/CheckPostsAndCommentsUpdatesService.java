@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
@@ -20,8 +21,11 @@ import com.parse.ParseBroadcastReceiver;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CheckPostsAndCommentsUpdatesService extends Service {
 
@@ -36,48 +40,92 @@ public class CheckPostsAndCommentsUpdatesService extends Service {
         final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         final Context context = getApplicationContext();
 
-//        if (InternetConnection.hasInternetConnection(context)) {
-//
-//            ParseQuery<LuseenPosts> luseenPostsParseQuery = ParseQuery.getQuery(LuseenPosts.class);
-//            luseenPostsParseQuery.findInBackground(new FindCallback<LuseenPosts>() {
-//                @Override
-//                public void done(List<LuseenPosts> posts, ParseException e) {
-//
-//                    if (e == null) {
-//
-//
-//                    }
-//
-//                }
-//            });
-//
-//            ParseQuery<LuseenPostComment> luseenPostCommentParseQuery = ParseQuery.getQuery(LuseenPostComment.class);
-//            luseenPostCommentParseQuery.findInBackground(new FindCallback<LuseenPostComment>() {
-//                @Override
-//                public void done(List<LuseenPostComment> postComments, ParseException e) {
-//
-//                    if (e == null) {
-//
-//                        Intent toNotification = new Intent(context, NotificationCommentMessage.class);
-//                        final PendingIntent contentIntent = PendingIntent.getBroadcast(context, 0, toNotification,
-//                                PendingIntent.FLAG_CANCEL_CURRENT);
-//
-//                        final Calendar calendar = Calendar.getInstance();
-//                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), contentIntent);
-//
-//                    }
-//                }
-//            });
-//        }
+        if (InternetConnection.hasInternetConnection(context)) {
 
-        Intent toNotification = new Intent(context, NotificationCommentMessage.class);
-        final PendingIntent contentIntent = PendingIntent.getBroadcast(context, 0, toNotification,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+            ParseQuery<LuseenPostComment> luseenPostCommentParseQueryOld = ParseQuery.getQuery(LuseenPostComment.class);
+            luseenPostCommentParseQueryOld.countInBackground(new CountCallback() {
+                @Override
+                public void done(final int oldCount, ParseException e) {
 
-        final Calendar calendar = Calendar.getInstance();
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), contentIntent);
+                    if (e == null) {
 
-        stopSelf();
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+
+                            @Override
+                            public void run() {
+
+                                final ParseQuery<LuseenPostComment> luseenPostCommentParseQueryNew = ParseQuery.getQuery(LuseenPostComment.class);
+                                luseenPostCommentParseQueryNew.countInBackground(new CountCallback() {
+                                    @Override
+                                    public void done(final int newCount, ParseException e) {
+
+                                        if (e == null) {
+
+                                            ParseQuery<LuseenPosts> luseenPostsParseQuery = ParseQuery.getQuery(LuseenPosts.class);
+                                            luseenPostsParseQuery.countInBackground(new CountCallback() {
+                                                @Override
+                                                public void done(final int count, ParseException e) {
+
+                                                    luseenPostCommentParseQueryNew.findInBackground(new FindCallback<LuseenPostComment>() {
+                                                        @Override
+                                                        public void done(List<LuseenPostComment> comments, ParseException e) {
+
+                                                            SharedPreferences sharedPreferences =
+                                                                    getSharedPreferences(AppConstants.NOTIFICATION_CHECKER_SHARED_PREFERENCE,
+                                                                            MODE_PRIVATE);
+
+                                                            for (int i = 0; i < count; i++) {
+
+                                                                String checkedPostId = sharedPreferences.
+                                                                        getString(String.valueOf(AppConstants.NOTIFICATION_POST_ID + i), "0");
+
+                                                                if (!checkedPostId.equals("0")) {
+
+                                                                    for (int j = 0; j < comments.size(); j++) {
+
+                                                                        if (checkedPostId.equals(comments.get(j).getPostId()) && oldCount < newCount) {
+
+                                                                            Intent toNotification = new Intent(context, NotificationCommentMessage.class);
+                                                                            final PendingIntent contentIntent = PendingIntent.getBroadcast(context, 0, toNotification,
+                                                                                    PendingIntent.FLAG_CANCEL_CURRENT);
+
+                                                                            final Calendar calendar = Calendar.getInstance();
+                                                                            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), contentIntent);
+
+                                                                        }
+
+                                                                    }
+
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                    });
+
+
+
+                                                }
+                                            });
+
+                                            stopSelf();
+
+                                        }
+
+                                    }
+                                });
+
+                            }
+
+                        }, 60000 * 2);
+
+                    }
+
+                }
+            });
+
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }

@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -39,6 +40,7 @@ import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
 import com.luseen.vanik.luseenapp.Services.NotificationService;
+import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -162,7 +164,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.NOTIFICATION_CHECKER_SHARED_PREFERENCE, Context.MODE_PRIVATE);
             final SharedPreferences.Editor editor = sharedPreferences.edit();
 
-            itemNotificationChecker.setChecked(sharedPreferences.getBoolean(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED, false));
+            boolean isChecked = sharedPreferences.getBoolean(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
+                    holder.getAdapterPosition()), false);
+            String checkedPostId = sharedPreferences.getString(String.valueOf(AppConstants.NOTIFICATION_POST_ID +
+                    holder.getAdapterPosition()), "0");
+
+            if (isChecked && checkedPostId.equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId()))
+                itemNotificationChecker.setChecked(true);
 
             holder.itemOptionsMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -180,14 +188,20 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                     if (!itemNotificationChecker.isChecked()) {
                                         itemNotificationChecker.setChecked(true);
-                                        editor.putBoolean(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED, true);
+                                        editor.putBoolean(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
+                                                holder.getAdapterPosition()), true);
+                                        editor.putString(String.valueOf(AppConstants.NOTIFICATION_POST_ID + holder.getAdapterPosition()),
+                                                luseenPosts.get(holder.getAdapterPosition()).getObjectId());
 
                                         runNotificationsService = new Intent(context, NotificationService.class);
                                         context.startService(runNotificationsService);
 
                                     } else {
                                         itemNotificationChecker.setChecked(false);
-                                        editor.putBoolean(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED, false);
+                                        editor.putBoolean(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
+                                                holder.getAdapterPosition()), false);
+                                        editor.putString(String.valueOf(AppConstants.NOTIFICATION_POST_ID + holder.getAdapterPosition()),
+                                                luseenPosts.get(holder.getAdapterPosition()).getObjectId());
                                         context.stopService(runNotificationsService);
                                     }
 

@@ -40,6 +40,7 @@ public interface AppConstants {
 
     String NOTIFICATION_CHECKER_SHARED_PREFERENCE = "NotChecker";
     String NOTIFICATION_POST_COMMENTS_CHECKED = "is_checked_nots";
+    String NOTIFICATION_POST_ID = "not_post_id";
 
 
     // Shared Preferences
