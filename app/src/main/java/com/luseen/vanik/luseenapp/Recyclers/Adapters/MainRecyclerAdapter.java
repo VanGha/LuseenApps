@@ -161,7 +161,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 itemPostDelete.setEnabled(false);
             }
 
-            SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.NOTIFICATION_CHECKER_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+            final SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.NOTIFICATION_CHECKER_SHARED_PREFERENCE, Context.MODE_PRIVATE);
             final SharedPreferences.Editor editor = sharedPreferences.edit();
 
             boolean isChecked = sharedPreferences.getBoolean(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
@@ -169,8 +169,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             String checkedPostId = sharedPreferences.getString(String.valueOf(AppConstants.NOTIFICATION_POST_ID +
                     holder.getAdapterPosition()), "0");
 
-            if (isChecked && checkedPostId.equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId()))
+            if (isChecked && checkedPostId.equals(luseenPosts.get(holder.getAdapterPosition()).getObjectId())) {
                 itemNotificationChecker.setChecked(true);
+            }
 
             holder.itemOptionsMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -184,8 +185,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                 case R.id.action_item_notify_for_new_comment: {
 
-                                    Intent runNotificationsService = new Intent(context, NotificationService.class);
-
                                     if (!itemNotificationChecker.isChecked()) {
                                         itemNotificationChecker.setChecked(true);
                                         editor.putBoolean(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
@@ -193,16 +192,12 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                                         editor.putString(String.valueOf(AppConstants.NOTIFICATION_POST_ID + holder.getAdapterPosition()),
                                                 luseenPosts.get(holder.getAdapterPosition()).getObjectId());
 
-                                        runNotificationsService = new Intent(context, NotificationService.class);
-                                        context.startService(runNotificationsService);
-
                                     } else {
                                         itemNotificationChecker.setChecked(false);
                                         editor.putBoolean(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
                                                 holder.getAdapterPosition()), false);
                                         editor.putString(String.valueOf(AppConstants.NOTIFICATION_POST_ID + holder.getAdapterPosition()),
                                                 luseenPosts.get(holder.getAdapterPosition()).getObjectId());
-                                        context.stopService(runNotificationsService);
                                     }
 
                                     editor.apply();
@@ -347,6 +342,22 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                                                             try {
                                                                 comments.get(i).delete();
                                                                 updatePostsComments();
+
+                                                                boolean tmp = sharedPreferences.getBoolean(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
+                                                                        holder.getAdapterPosition()), false);
+                                                                String tmpS = sharedPreferences.getString(String.valueOf(AppConstants.NOTIFICATION_POST_ID +
+                                                                        holder.getAdapterPosition()), "0");
+
+                                                                if (tmp && !tmpS.equals("0")) {
+
+                                                                    editor.remove(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
+                                                                            holder.getAdapterPosition()));
+                                                                    editor.remove(String.valueOf(AppConstants.NOTIFICATION_POST_ID +
+                                                                            holder.getAdapterPosition()));
+                                                                    editor.apply();
+
+                                                                }
+
                                                             } catch (ParseException e1) {
                                                                 e1.printStackTrace();
                                                             }

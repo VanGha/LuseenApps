@@ -17,11 +17,9 @@ import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
-import com.parse.ParseBroadcastReceiver;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
@@ -93,38 +91,24 @@ public class CheckPostsAndCommentsUpdatesService extends Service {
                                                                             final Calendar calendar = Calendar.getInstance();
                                                                             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), contentIntent);
 
+                                                                            stopSelf();
                                                                         }
 
                                                                     }
-
                                                                 }
-
                                                             }
-
                                                         }
                                                     });
-
-
-
                                                 }
                                             });
-
-                                            stopSelf();
-
                                         }
-
                                     }
                                 });
-
                             }
-
                         }, 60000 * 2);
-
                     }
-
                 }
             });
-
         }
 
         return super.onStartCommand(intent, flags, startId);

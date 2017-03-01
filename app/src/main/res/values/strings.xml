@@ -110,8 +110,20 @@
     <!-- Notifications -->
 
     <string name="new_comment_title">Новый комментарий</string>
-    <string name="has_a_new_comment">Появился новый комментарий к посту</string>
+    <string name="have_new_comment">Появился новый комментарий к посту</string>
 
     <!-- Notifications -->
+
+    <!-- Settings -->
+
+    <string name="use_background_processes">Использовать фоновые процессы</string>
+
+    <!-- Settings -->
+
+    <!-- Settings titles -->
+
+    <string name="settings_title_background_processes">Фоновые процессы</string>
+
+    <!-- Settings titles -->
 
 </resources>

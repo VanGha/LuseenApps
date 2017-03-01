@@ -21,7 +21,7 @@ public class NotificationPostMessage extends BroadcastReceiver {
         notificationBuilder.setColor(context.getResources().getColor(R.color.colorAccent));
         notificationBuilder.setSmallIcon(R.drawable.luseen_icon);
         notificationBuilder.setContentTitle(context.getResources().getString(R.string.new_comment_title));
-        notificationBuilder.setContentText(context.getResources().getString(R.string.has_a_new_comment));
+        notificationBuilder.setContentText(context.getResources().getString(R.string.have_new_comment));
         notificationBuilder.setDefaults(Notification.DEFAULT_ALL);
         notificationBuilder.setContentIntent(PendingIntent.getActivity(context, 1,
                 new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT));

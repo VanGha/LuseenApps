@@ -42,6 +42,9 @@ public interface AppConstants {
     String NOTIFICATION_POST_COMMENTS_CHECKED = "is_checked_nots";
     String NOTIFICATION_POST_ID = "not_post_id";
 
+    String SETTINGS_SHARED_PREFERENCES = "SettingsSP";
+    String SETTINGS_IS_IN_USE_BACKGROUND_PROCESSES = "is_back_process";
+
 
     // Shared Preferences
 
