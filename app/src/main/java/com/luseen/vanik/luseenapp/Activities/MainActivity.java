@@ -182,7 +182,8 @@ public class MainActivity extends AppCompatActivity
 
         if (currentMenu.equals(AppConstants.TAG_MENU_NEWS) ||
                 LoggedUser.getRank().equals(getResources().getString(R.string.rank_student))) {
-            menu.setGroupVisible(0, false);
+            menu.setGroupVisible(R.id.action_add_post_group, false);
+            menu.setGroupVisible(R.id.action_notify_data_group, true);
         }
 
         return true;
@@ -354,10 +355,16 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.menu_news) {
             setupMenuNews();
-            menu.setGroupVisible(0, false);
+            menu.setGroupVisible(R.id.action_add_post_group, false);
+            menu.setGroupVisible(R.id.action_notify_data_group, true);
         } else if (id == R.id.menu_publications) {
             setupMenuPublications();
-            menu.setGroupVisible(0, true);
+
+            if (LoggedUser.getRank().equals(getResources().getString(R.string.rank_student)))
+                menu.setGroupVisible(R.id.action_add_post_group, false);
+            else
+                menu.setGroupVisible(R.id.action_add_post_group, true);
+            menu.setGroupVisible(R.id.action_notify_data_group, true);
         } else if (id == R.id.menu_application_settings) {
 
             Intent toSettingsActivity = new Intent(MainActivity.this, SettingsActivity.class);
@@ -367,7 +374,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.menu_my_posts) {
             setupMenuMyPublications();
-            menu.setGroupVisible(0, false);
+            menu.setGroupVisible(R.id.action_add_post_group, false);
+            menu.setGroupVisible(R.id.action_notify_data_group, false);
         } else if (id == R.id.menu_acc_log_out) {
             LoggedUser.logout(MainActivity.this, navigationView);
         }
