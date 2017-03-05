@@ -19,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.luseen.vanik.luseenapp.Activities.LogRegActivity;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
@@ -194,6 +196,7 @@ public class RegisterFragment extends Fragment {
                                         } else {
                                             Toast.makeText(getContext(), R.string.password_fields_not_once,
                                                     Toast.LENGTH_SHORT).show();
+                                            YoYo.with(Techniques.Shake).duration(1000).playOn(regPasswordDuplicateField);
                                         }
 
                                     } else {
@@ -205,6 +208,7 @@ public class RegisterFragment extends Fragment {
                                         } else {
                                             Toast.makeText(getContext(), R.string.user_mail_duplicate,
                                                     Toast.LENGTH_SHORT).show();
+                                            YoYo.with(Techniques.Shake).duration(1000).playOn(emailField);
                                         }
                                     }
                                 }
@@ -213,6 +217,11 @@ public class RegisterFragment extends Fragment {
 
                     } else {
                         Toast.makeText(getContext(), R.string.empty_fields, Toast.LENGTH_SHORT).show();
+                        YoYo.with(Techniques.Shake).duration(1000).playOn(userNameField);
+                        YoYo.with(Techniques.Shake).duration(1000).playOn(userSurnameField);
+                        YoYo.with(Techniques.Shake).duration(1000).playOn(emailField);
+                        YoYo.with(Techniques.Shake).duration(1000).playOn(regPasswordField);
+                        YoYo.with(Techniques.Shake).duration(1000).playOn(regPasswordDuplicateField);
                     }
 
                 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.Settings;
@@ -22,6 +23,8 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        SharedPreferences s = getSharedPreferences(AppConstants.NOTIFICATION_CHECKER_SHARED_PREFERENCE, MODE_PRIVATE);
 
         if (InternetConnection.hasInternetConnection(StartActivity.this)) {
 
@@ -44,8 +47,7 @@ public class StartActivity extends AppCompatActivity {
                     } else {
 
                         startActivity(new Intent(StartActivity.this, LogRegActivity.class));
-                        if (Settings.isInUseBackgroundProcesses())
-                            stopService(runNotificationsService);
+                        stopService(runNotificationsService);
                     }
 
                 }

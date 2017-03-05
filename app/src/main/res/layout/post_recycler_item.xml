@@ -9,8 +9,7 @@
         android:id="@+id/info_cards"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        card_view:cardCornerRadius="5dp"
+        android:layout_margin="5dp"
         card_view:cardElevation="5dp"
         card_view:contentPadding="5dp">
 
@@ -56,8 +55,8 @@
 
             <TextView
                 android:id="@+id/item_options_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
@@ -75,26 +74,30 @@
                 android:paddingTop="10dp" />
 
             <TextView
-                android:id="@+id/cmnt_line"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/info_text"
-                android:gravity="start"
-                android:text="@string/comments" />
-
-            <TextView
                 android:id="@+id/h_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@id/cmnt_line"
+                android:layout_below="@id/info_text"
                 android:layout_margin="5dp"
                 android:background="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/cmnt_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/h_line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:gravity="start"
+                android:text="@string/comments"
+                android:textSize="18sp" />
 
             <ScrollView
                 android:id="@+id/scrollViewComments"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_below="@id/h_line">
+                android:layout_below="@id/cmnt_line">
 
                 <LinearLayout
                     android:id="@+id/comments_field"
@@ -126,6 +129,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/scrollViewComments"
+                android:background="@drawable/white_background"
+                android:elevation="30dp"
                 android:orientation="horizontal">
 
                 <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
@@ -140,25 +145,40 @@
                     android:id="@+id/comment_create_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/small_stroke">
+                    android:layout_marginTop="10dp">
 
-                    <Button
-                        android:id="@+id/comment_send_button"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                    <ImageSwitcher
+                        android:id="@+id/send_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/send_button" />
+                        android:layout_alignParentRight="true">
+
+                        <ImageView
+                            android:id="@+id/comment_send_button_gray"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:clickable="true"
+                            android:src="@drawable/send_button_gray" />
+
+                        <ImageView
+                            android:id="@+id/comment_send_button_blue"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:clickable="true"
+                            android:src="@drawable/send_button" />
+
+                    </ImageSwitcher>
 
                     <EditText
                         android:id="@+id/comment_field"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:layout_toLeftOf="@id/comment_send_button"
-                        android:layout_toStartOf="@id/comment_send_button" />
+                        android:layout_toLeftOf="@id/send_button"
+                        android:layout_toStartOf="@id/send_button" />
 
                 </RelativeLayout>
 

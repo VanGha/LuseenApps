@@ -15,6 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Classes.LoggedUser;
 import com.luseen.vanik.luseenapp.Parse.LuseenUsers;
@@ -31,7 +33,7 @@ public class LoginFragment extends Fragment {
     LinearLayout dataWindow;
 
     ProgressBar loadingProgress;
-    TextView windowTittle, forgotPassword;
+    TextView windowTittle;
     EditText loginField, passwordField;
     Button doneButton;
 
@@ -115,10 +117,14 @@ public class LoginFragment extends Fragment {
 
                                     if (!isLogged) {
                                         Toast.makeText(getContext(), R.string.incorrect_login_or_password, Toast.LENGTH_SHORT).show();
+                                        YoYo.with(Techniques.Shake).duration(1000).playOn(loginField);
+                                        YoYo.with(Techniques.Shake).duration(1000).playOn(passwordField);
                                     }
 
                                 } else {
                                     Toast.makeText(getContext(), R.string.empty_fields, Toast.LENGTH_SHORT).show();
+                                    YoYo.with(Techniques.Shake).duration(1000).playOn(loginField);
+                                    YoYo.with(Techniques.Shake).duration(1000).playOn(passwordField);
                                 }
 
                             } else {

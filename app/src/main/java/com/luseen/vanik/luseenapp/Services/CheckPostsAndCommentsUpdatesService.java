@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
@@ -37,6 +38,8 @@ public class CheckPostsAndCommentsUpdatesService extends Service {
 
         final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         final Context context = getApplicationContext();
+
+        Toast.makeText(context, "TSE", Toast.LENGTH_SHORT).show();
 
         if (InternetConnection.hasInternetConnection(context)) {
 
@@ -95,20 +98,28 @@ public class CheckPostsAndCommentsUpdatesService extends Service {
                                                                         }
 
                                                                     }
+
                                                                 }
+
                                                             }
+
                                                         }
                                                     });
+
                                                 }
                                             });
+
                                         }
                                     }
                                 });
+
                             }
                         }, 60000 * 2);
                     }
+
                 }
             });
+
         }
 
         return super.onStartCommand(intent, flags, startId);

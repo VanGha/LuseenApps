@@ -4,30 +4,32 @@ package com.luseen.vanik.luseenapp.Recyclers.Adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.pdf.PdfRenderer;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -39,8 +41,6 @@ import com.luseen.vanik.luseenapp.Parse.LuseenNews;
 import com.luseen.vanik.luseenapp.Parse.LuseenPostComment;
 import com.luseen.vanik.luseenapp.Parse.LuseenPosts;
 import com.luseen.vanik.luseenapp.R;
-import com.luseen.vanik.luseenapp.Services.NotificationService;
-import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -90,6 +90,35 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             holder.posterSurname.setText(luseenPosts.get(holder.getAdapterPosition()).getPosterSurname());
             holder.information.setText(luseenPosts.get(holder.getAdapterPosition()).getInformation());
 
+            final boolean[] isFirstFocus = {true};
+
+            holder.commentField.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    if (holder.commentField.getText().toString().length() == 1 && isFirstFocus[0]) {
+                        holder.sendButtonSwitcher.showNext();
+                        isFirstFocus[0] = false;
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    if (holder.commentField.getText().toString().isEmpty()) {
+                        holder.sendButtonSwitcher.showPrevious();
+                        isFirstFocus[0] = true;
+                    }
+
+                }
+            });
+
             holder.commentsLoadProgress.setVisibility(View.VISIBLE);
 
             for (int i = 0; i < luseenPostComments.size(); i++) {
@@ -117,7 +146,16 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
             holder.commentsLoadProgress.setVisibility(View.GONE);
 
-            holder.sendButton.setOnClickListener(new View.OnClickListener() {
+            holder.sendButtonGray.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    YoYo.with(Techniques.Shake).duration(500).playOn(holder.commentCreateField);
+                }
+
+            });
+
+            holder.sendButtonBlue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -141,13 +179,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                         holder.commentField.setText("");
 
-                    } else {
-                        YoYo.with(Techniques.Shake).duration(500).playOn(holder.commentCreateField);
                     }
 
                     holder.commentsLoadProgress.setVisibility(View.GONE);
                 }
-
             });
 
             final PopupMenu popupMenu = new PopupMenu(context, holder.itemOptionsMenu);
@@ -161,7 +196,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 itemPostDelete.setEnabled(false);
             }
 
-            final SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.NOTIFICATION_CHECKER_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+            final SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.NOTIFICATION_CHECKER_SHARED_PREFERENCE,
+                    Context.MODE_PRIVATE);
             final SharedPreferences.Editor editor = sharedPreferences.edit();
 
             boolean isChecked = sharedPreferences.getBoolean(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
@@ -194,10 +230,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
                                     } else {
                                         itemNotificationChecker.setChecked(false);
-                                        editor.putBoolean(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
-                                                holder.getAdapterPosition()), false);
-                                        editor.putString(String.valueOf(AppConstants.NOTIFICATION_POST_ID + holder.getAdapterPosition()),
-                                                luseenPosts.get(holder.getAdapterPosition()).getObjectId());
+                                        editor.remove(String.valueOf(AppConstants.NOTIFICATION_POST_COMMENTS_CHECKED +
+                                                holder.getAdapterPosition()));
+                                        editor.remove(String.valueOf(AppConstants.NOTIFICATION_POST_ID +
+                                                holder.getAdapterPosition()));
                                     }
 
                                     editor.apply();
@@ -531,7 +567,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         PorterShapeImageView posterImage, userImage;
         TextView posterName, posterSurname, information, itemOptionsMenu, noComment;
         EditText commentField;
-        Button sendButton;
+        ImageSwitcher sendButtonSwitcher;
+        ImageView sendButtonGray;
+        ImageView sendButtonBlue;
 
         TextView newsInformation;
 
@@ -553,7 +591,18 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 commentCreateField = (RelativeLayout) itemView.findViewById(R.id.comment_create_field);
                 commentsLoadProgress = (ProgressBar) itemView.findViewById(R.id.load_progress);
                 commentField = (EditText) itemView.findViewById(R.id.comment_field);
-                sendButton = (Button) itemView.findViewById(R.id.comment_send_button);
+                sendButtonSwitcher = (ImageSwitcher) itemView.findViewById(R.id.send_button);
+                sendButtonGray = (ImageView) itemView.findViewById(R.id.comment_send_button_gray);
+                sendButtonBlue = (ImageView) itemView.findViewById(R.id.comment_send_button_blue);
+
+                Animation inAnimation = new AlphaAnimation(0, 1);
+                inAnimation.setDuration(1000);
+                Animation outAnimation = new AlphaAnimation(1, 0);
+                outAnimation.setDuration(1000);
+
+                sendButtonSwitcher.setInAnimation(inAnimation);
+                sendButtonSwitcher.setOutAnimation(outAnimation);
+
 
             } else {
 

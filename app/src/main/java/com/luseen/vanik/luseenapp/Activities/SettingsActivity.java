@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.luseen.vanik.luseenapp.Classes.Settings;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
@@ -27,15 +28,10 @@ public class SettingsActivity extends AppCompatActivity {
         isInUseBackgroundProcesses = (Switch) findViewById(R.id.is_in_use_background_processes);
 
         isInUseBackgroundProcesses.setChecked(sharedPreferences.getBoolean(AppConstants.SETTINGS_IS_IN_USE_BACKGROUND_PROCESSES, true));
+        Settings.setIsInUseBackgroundProcesses(sharedPreferences.getBoolean(AppConstants.SETTINGS_IS_IN_USE_BACKGROUND_PROCESSES, true));
         isInUseBackgroundProcesses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (isInUseBackgroundProcesses.isChecked()) {
-                    isInUseBackgroundProcesses.setChecked(false);
-                } else {
-                    isInUseBackgroundProcesses.setChecked(true);
-                }
 
                 Settings.setIsInUseBackgroundProcesses(isInUseBackgroundProcesses.isChecked());
                 editor.putBoolean(AppConstants.SETTINGS_IS_IN_USE_BACKGROUND_PROCESSES,

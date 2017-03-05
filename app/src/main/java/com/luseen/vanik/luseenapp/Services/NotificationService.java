@@ -26,7 +26,7 @@ public class NotificationService extends Service {
         Intent toCheck = new Intent(getApplicationContext(), CheckPostsAndCommentsUpdatesService.class);
         PendingIntent contentIntent = PendingIntent.getService(getApplicationContext(), 1, toCheck, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 3000, 60000 * 5, contentIntent);
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), 60000 * 5, contentIntent);
 
         return super.onStartCommand(intent, flags, startId);
     }

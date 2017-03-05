@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Parse.LuseenUsers;
 import com.luseen.vanik.luseenapp.R;
@@ -90,6 +92,8 @@ public class RecoveryFragment extends Fragment {
                                 if (!finder) {
 
                                     showPasswordDialogBuilder.setMessage(R.string.incorrect_data);
+                                    YoYo.with(Techniques.Shake).duration(1000).playOn(recoveryEmailField);
+                                    YoYo.with(Techniques.Shake).duration(1000).playOn(recoveryNameField);
 
                                 }
 
