@@ -79,8 +79,8 @@
 
     <!-- LogIn&LogOut -->
 
-    <string name="question_want_to_leave">You want to leave of your account?</string>
-    <string name="question_want_to_leave_the_app">You want to leave of Application?</string>
+    <string name="question_want_to_leave">You want to leave from your account?</string>
+    <string name="question_want_to_leave_the_app">You want to leave from Application?</string>
     <string name="log_out">LEAVE</string>
     <string name="log_in">SIGN IN</string>
 
