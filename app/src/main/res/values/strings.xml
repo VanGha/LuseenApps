@@ -4,53 +4,52 @@
     <!-- Other -->
 
     <string name="logo_description">Luseen Logo</string>
-    <string name="login">Войти</string>
-    <string name="register">Регистрация</string>
-    <string name="cancel">Отмена</string>
-    <string name="login_tittle">Вход</string>
-    <string name="register_tittle">Регистрация</string>
-    <string name="recovery_tittle">Восстановление пароля</string>
-    <string name="error">Ошибка, просим прощения!</string>
-    <string name="forgot_password">Восстановить пароль</string>
-    <string name="recover_password">Восстановить пароль</string>
-    <string name="show_password">Ваш пароль</string>
-    <string name="recovery">Восстановить</string>
-    <string name="create">Создать</string>
-    <string name="text">Текст</string>
-    <string name="use_example">Использовать шаблон</string>
-    <string name="comments">Комментарии</string>
-    <string name="no_comments">Нет комментариев!</string>
-    <string name="account">Аккаунт</string>
+    <string name="login">Sign In</string>
+    <string name="register">Sign Up</string>
+    <string name="cancel">Cancel</string>
+    <string name="login_tittle">Login</string>
+    <string name="register_tittle">Register</string>
+    <string name="recovery_tittle">Recover the password</string>
+    <string name="error">Error, Sorry!</string>
+    <string name="recover_password">Recover the password</string>
+    <string name="show_password">Your password</string>
+    <string name="recovery">Recover</string>
+    <string name="create">Create</string>
+    <string name="text">Text</string>
+    <string name="use_example">Use Examples</string>
+    <string name="comments">Comments</string>
+    <string name="no_comments">No such comments!</string>
+    <string name="account">Account</string>
 
     <!-- Other -->
 
     <!-- Login&Register Fields -->
 
-    <string name="successfully_registered">Вы успешно зарегистрировались!</string>
+    <string name="successfully_registered">You has benn registered successfully!</string>
 
-    <string name="register_name">Имя</string>
-    <string name="register_surname">Фамилия</string>
-    <string name="register_rank_tittle">Звание</string>
-    <string name="register_speciality_tittle">Специализазия</string>
+    <string name="register_name">Name</string>
+    <string name="register_surname">Surname</string>
+    <string name="register_rank_tittle">Rank</string>
+    <string name="register_speciality_tittle">Speciality</string>
 
-    <string name="login_field_hint">E-Mail или Имя пользователья</string>
-    <string name="recovery_username_hint">Имя пользователья</string>
+    <string name="login_field_hint">E-Mail or Username</string>
+    <string name="recovery_username_hint">Username</string>
     <string name="register_email_field_hint">E-Mail</string>
-    <string name="password_field_hint">Пароль</string>
-    <string name="password_duplicate_field_hint">Повтор пароля</string>
+    <string name="password_field_hint">Password</string>
+    <string name="password_duplicate_field_hint">Confirm password</string>
 
     <!-- Login&Register Fields -->
 
     <!-- Spinner -->
 
-    <string name="speciality_field">--Специализация--</string>
-    <string name="rank_field">--Звание--</string>
-    <string name="date_field">Дата</string>
-    <string name="time_field">Время</string>
+    <string name="speciality_field">--Speciality--</string>
+    <string name="rank_field">--Rank--</string>
+    <string name="date_field">Date</string>
+    <string name="time_field">Time</string>
 
-    <string name="rank_developer">Разработчик</string>
-    <string name="rank_trainer">Трейнер</string>
-    <string name="rank_student">Студент</string>
+    <string name="rank_developer">Developer</string>
+    <string name="rank_trainer">Trainer</string>
+    <string name="rank_student">Student</string>
 
     <string name="speciality_web">Web</string>
     <string name="speciality_java">Java</string>
@@ -62,76 +61,76 @@
 
     <!-- Spinner -->
 
-    <string name="navigation_drawer_open">Открыть</string>
-    <string name="navigation_drawer_close">Закрыть</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 
     <!-- Errors -->
 
-    <string name="no_internet_connection">Нету соединение с интернетом</string>
-    <string name="no_have_permissions">У вас нету прав на это действие</string>
-    <string name="empty_fields">Заполните все поля!!</string>
-    <string name="password_fields_not_once">Пароли не совпадают!</string>
-    <string name="incorrect_login_or_password">Неправильный логин или пароль</string>
-    <string name="incorrect_data">Введена неправильная информация</string>
-    <string name="user_duplicate">Такой пользователь уже существует!</string>
-    <string name="user_mail_duplicate">Пользователь с таким E-Mail уже существует!</string>
+    <string name="no_internet_connection">No internet connection!</string>
+    <string name="no_have_permissions">You no have permissions!</string>
+    <string name="empty_fields">Enter all fields!!</string>
+    <string name="password_fields_not_once">Passwords incorrect!</string>
+    <string name="incorrect_login_or_password">Incorrect login or password</string>
+    <string name="incorrect_data">Incorrect data</string>
+    <string name="user_duplicate">User with this name already exists!</string>
+    <string name="user_mail_duplicate">User with this E-Mail already exists!</string>
 
     <!-- Errors -->
 
     <!-- LogIn&LogOut -->
 
-    <string name="question_want_to_leave">Вы точно хотите выйти из системы?</string>
-    <string name="question_want_to_leave_the_app">Вы точно хотите выйти из приложения?</string>
-    <string name="log_out">ВЫЙТИ</string>
-    <string name="log_in">ВОЙТИ</string>
+    <string name="question_want_to_leave">You want to leave of your account?</string>
+    <string name="question_want_to_leave_the_app">You want to leave of Application?</string>
+    <string name="log_out">LEAVE</string>
+    <string name="log_in">SIGN IN</string>
 
     <!-- LogIn&LogOut -->
 
     <!-- Menu -->
 
-    <string name="settings">Настройки</string>
-    <string name="action_create_post">Создать публикацию</string>
-    <string name="menu_news">Новости</string>
-    <string name="menu_publications">Публикации</string>
-    <string name="menu_profile_settings">Настройки профиля</string>
-    <string name="menu_application_settings">Настройки приложения</string>
-    <string name="menu_my_publications">Мои публикации</string>
-    <string name="general">Главная</string>
-    <string name="user">Пользователь</string>
-    <string name="information">Информация</string>
-    <string name="action_notify_new_comment">Уведомлять при появлении нового комментария</string>
-    <string name="action_notify_new_post">Уведомлять при появлении новой публикации</string>
-    <string name="action_notify_news">Уведомлять при появлении новостей</string>
-    <string name="action_edit_post">Изменить</string>
-    <string name="action_delete_post">Удалить</string>
+    <string name="settings">Settings</string>
+    <string name="action_create_post">Create post</string>
+    <string name="menu_news">News</string>
+    <string name="menu_publications">Posts</string>
+    <string name="menu_profile_settings">Profile settings</string>
+    <string name="menu_application_settings">Application settings</string>
+    <string name="menu_my_publications">My posts</string>
+    <string name="general">General</string>
+    <string name="user">User</string>
+    <string name="information">Information</string>
+    <string name="action_notify_new_comment">Notify when has a new comment</string>
+    <string name="action_notify_new_post">Notify when has a new post</string>
+    <string name="action_notify_news">Notify when has news</string>
+    <string name="action_edit_post">Edit</string>
+    <string name="action_delete_post">Delete</string>
 
     <!-- Menu -->
 
     <!-- Notifications -->
 
-    <string name="new_comment_title">Новый комментарий</string>
-    <string name="have_new_comment">Появился новый комментарий к посту</string>
+    <string name="new_comment_title">New comment</string>
+    <string name="have_new_comment">Has a new comment on post</string>
 
     <!-- Notifications -->
 
     <!-- Dialogs -->
 
-    <string name="account_delete_dialog_enter_password">Введите пароль</string>
-    <string name="account_delete_dialog_title">Удаление аккаунта</string>
+    <string name="account_delete_dialog_enter_password">Enter the password</string>
+    <string name="account_delete_dialog_title">Delete account</string>
 
     <!-- Dialogs -->
 
     <!-- Settings -->
 
-    <string name="use_background_processes">Использовать фоновые процессы</string>
+    <string name="use_background_processes">Use background processes</string>
 
-    <string name="delete_account">Удалить аккаунт</string>
+    <string name="delete_account">Delete the account</string>
 
     <!-- Settings -->
 
     <!-- Settings titles -->
 
-    <string name="settings_title_background_processes">Фоновые процессы</string>
+    <string name="settings_title_background_processes">Background processes</string>
 
     <!-- Settings titles -->
 
