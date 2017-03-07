@@ -20,7 +20,7 @@
     <string name="use_example">Использовать шаблон</string>
     <string name="comments">Комментарии</string>
     <string name="no_comments">Нет комментариев!</string>
-    <string name="accaunt">Аккаунт</string>
+    <string name="account">Аккаунт</string>
 
     <!-- Other -->
 
@@ -114,9 +114,18 @@
 
     <!-- Notifications -->
 
+    <!-- Dialogs -->
+
+    <string name="account_delete_dialog_enter_password">Введите пароль</string>
+    <string name="account_delete_dialog_title">Удаление аккаунта</string>
+
+    <!-- Dialogs -->
+
     <!-- Settings -->
 
     <string name="use_background_processes">Использовать фоновые процессы</string>
+
+    <string name="delete_account">Удалить аккаунт</string>
 
     <!-- Settings -->
 

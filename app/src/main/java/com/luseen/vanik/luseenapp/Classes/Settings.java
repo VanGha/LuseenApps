@@ -13,4 +13,8 @@ public class Settings {
         Settings.isInUseBackgroundProcesses = isInUseBackgroundProcesses;
     }
 
+    public boolean deleteAccount() {
+        return false;
+    }
+
 }

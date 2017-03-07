@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity
                                 LoggedUser.setEmail(users.get(i).getMail());
                                 LoggedUser.setName(users.get(i).getName());
                                 LoggedUser.setSurName(users.get(i).getSurname());
+                                LoggedUser.setPassword(users.get(i).getPassword());
                                 LoggedUser.setRank(users.get(i).getRank());
                                 LoggedUser.setSpeciality(users.get(i).getSpeciality());
 

@@ -18,6 +18,8 @@ public class LoggedUser {
     private static String email;
     private static String name;
     private static String surName;
+    private static String password;
+
     private static String rank;
     private static String speciality;
 
@@ -33,6 +35,10 @@ public class LoggedUser {
 
     public static void setSurName(String surName) {
         LoggedUser.surName = surName;
+    }
+
+    public static void setPassword(String password) {
+        LoggedUser.password = password;
     }
 
     public static void setRank(String rank) {
@@ -53,6 +59,10 @@ public class LoggedUser {
 
     public static String getSurName() {
         return surName;
+    }
+
+    public static String getPassword() {
+        return password;
     }
 
     public static String getRank() {

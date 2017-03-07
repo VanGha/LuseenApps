@@ -53,7 +53,7 @@
 
     </item>
 
-    <item android:title="@string/accaunt">
+    <item android:title="@string/account">
 
         <menu>
 
