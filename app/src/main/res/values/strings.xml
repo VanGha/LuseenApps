@@ -11,6 +11,7 @@
     <string name="register_tittle">Register</string>
     <string name="recovery_tittle">Recover the password</string>
     <string name="error">Error, Sorry!</string>
+    <string name="forgot_password">Forgot the password</string>
     <string name="recover_password">Recover the password</string>
     <string name="show_password">Your password</string>
     <string name="recovery">Recover</string>
@@ -131,6 +132,8 @@
     <!-- Settings titles -->
 
     <string name="settings_title_background_processes">Background processes</string>
+    <string name="background_process_summary">You must be able this point for gather notifications, if this poit not allowed, notifications will not gathered</string>
+    <string name="delete_account_summary">You should delete your account</string>
 
     <!-- Settings titles -->
 

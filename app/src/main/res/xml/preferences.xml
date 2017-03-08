@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_title_background_processes">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="use_background_processes"
+            android:summary="@string/background_process_summary"
+            android:title="@string/use_background_processes" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/account">
+
+        <Preference
+            android:key="delete_account"
+            android:summary="@string/delete_account_summary"
+            android:title="@string/delete_account" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

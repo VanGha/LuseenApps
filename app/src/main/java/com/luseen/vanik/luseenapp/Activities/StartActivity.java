@@ -41,7 +41,7 @@ public class StartActivity extends AppCompatActivity {
                                 MODE_PRIVATE);
                         LoggedUser.login(StartActivity.this, sharedPreferences.getString(AppConstants.LOGGED_USER_EMAIL, ""));
 
-                        if (Settings.isInUseBackgroundProcesses())
+                        if (Settings.isInUseBackgroundProcesses(StartActivity.this))
                             startService(runNotificationsService);
 
                     } else {
