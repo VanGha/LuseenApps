@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.luseen.vanik.luseenapp.Activities.Fragments.MainFragments.MainFragment;
+import com.luseen.vanik.luseenapp.Activities.LogRegActivity;
+import com.luseen.vanik.luseenapp.Activities.MainActivity;
 import com.luseen.vanik.luseenapp.Classes.InternetConnection;
 import com.luseen.vanik.luseenapp.Parse.LuseenUsers;
 import com.luseen.vanik.luseenapp.R;
@@ -85,27 +88,28 @@ public class RecoveryFragment extends Fragment {
 
                                         showPasswordDialogBuilder.setMessage("" + users.get(i).getPassword());
 
+                                        showPasswordDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                LogRegActivity.scrollTabToPosition(0);
+
+                                            }
+                                        });
+
+                                        showPasswordDialogBuilder.create().show();
+                                        break;
                                     }
 
                                 }
 
                                 if (!finder) {
 
-                                    showPasswordDialogBuilder.setMessage(R.string.incorrect_data);
+                                    Toast.makeText(getContext(), R.string.incorrect_data, Toast.LENGTH_SHORT).show();
                                     YoYo.with(Techniques.Shake).duration(1000).playOn(recoveryEmailField);
                                     YoYo.with(Techniques.Shake).duration(1000).playOn(recoveryNameField);
 
                                 }
-
-                                showPasswordDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-
-
-                                    }
-                                });
-
-                                showPasswordDialogBuilder.create().show();
 
                             } else {
 

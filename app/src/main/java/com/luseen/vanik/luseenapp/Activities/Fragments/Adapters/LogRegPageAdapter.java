@@ -10,43 +10,38 @@ import com.luseen.vanik.luseenapp.Activities.Fragments.LogRegFragments.LoginFrag
 import com.luseen.vanik.luseenapp.Activities.Fragments.LogRegFragments.RecoveryFragment;
 import com.luseen.vanik.luseenapp.Activities.Fragments.LogRegFragments.RegisterFragment;
 import com.luseen.vanik.luseenapp.Interfaces.AppConstants;
+import com.luseen.vanik.luseenapp.R;
 
 public class LogRegPageAdapter extends FragmentPagerAdapter {
 
-    private Context context;
     private String[] tabs;
+
+    private String tittleLogin;
+    private String tittleRegister;
+    private String tittleRecoveryPassword;
 
     public LogRegPageAdapter(Context context, FragmentManager fm) {
         super(fm);
 
-        this.context = context;
+        tittleLogin = context.getResources().getString(R.string.login_tittle);
+        tittleRegister = context.getResources().getString(R.string.register_tittle);
+        tittleRecoveryPassword = context.getResources().getString(R.string.recovery_tittle);
 
-        tabs = new String[]{AppConstants.TITTLE_LOGIN, AppConstants.TITTLE_REGISTER,
-                AppConstants.TITTLE_RECOVERY_PASSWORD};
+        tabs = new String[]{tittleLogin, tittleRegister, tittleRecoveryPassword};
 
     }
 
     @Override
     public Fragment getItem(int position) {
 
-        switch (tabs[position]) {
-
-            case AppConstants.TITTLE_LOGIN: {
-                return LoginFragment.newInstance();
-            }
-
-            case AppConstants.TITTLE_REGISTER: {
-                return RegisterFragment.newInstance();
-            }
-
-            case AppConstants.TITTLE_RECOVERY_PASSWORD: {
-                return RecoveryFragment.newInstance();
-            }
-
-            default: {
-                return LoginFragment.newInstance();
-            }
-
+        if (tabs[position].equals(tittleLogin)) {
+            return LoginFragment.newInstance();
+        } else if (tabs[position].equals(tittleRegister)) {
+            return RegisterFragment.newInstance();
+        } else if (tabs[position].equals(tittleRecoveryPassword)) {
+            return RecoveryFragment.newInstance();
+        } else {
+            return LoginFragment.newInstance();
         }
 
     }

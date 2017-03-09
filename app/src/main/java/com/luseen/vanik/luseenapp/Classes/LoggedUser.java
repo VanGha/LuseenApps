@@ -113,6 +113,19 @@ public class LoggedUser {
 
     }
 
+    public static void logoutWithoutSnackBar(final Context context) {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.LOGGED_USER_SHARED_PREFERENCE,
+                Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        context.startActivity(new Intent(context, LogRegActivity.class));
+        editor.putBoolean(AppConstants.IS_LOGGED, false);
+        editor.apply();
+
+    }
+
     public static boolean isLogged(Context context) {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.LOGGED_USER_SHARED_PREFERENCE,

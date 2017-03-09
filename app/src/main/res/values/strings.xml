@@ -133,7 +133,7 @@
 
     <string name="settings_title_background_processes">Background processes</string>
     <string name="background_process_summary">You must be able this point for gather notifications, if this poit not allowed, notifications will not gathered</string>
-    <string name="delete_account_summary">You should delete your account</string>
+    <string name="delete_account_summary">You can delete your account</string>
 
     <!-- Settings titles -->
 

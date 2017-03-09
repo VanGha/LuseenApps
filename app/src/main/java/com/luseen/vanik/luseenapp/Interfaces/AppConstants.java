@@ -3,10 +3,6 @@ package com.luseen.vanik.luseenapp.Interfaces;
 
 public interface AppConstants {
 
-    String TITTLE_REGISTER = "Регистрация";
-    String TITTLE_LOGIN = "             Вход            ";
-    String TITTLE_RECOVERY_PASSWORD = "Восстановить пароль";
-
     // Fragment Tags
 
     String TAG_MENU_NEWS = "news_fragment";

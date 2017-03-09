@@ -12,8 +12,9 @@
 
     <PreferenceCategory android:title="@string/account">
 
-        <Preference
+        <EditTextPreference
             android:key="delete_account"
+            android:hint="@string/password_field_hint"
             android:summary="@string/delete_account_summary"
             android:title="@string/delete_account" />
 
